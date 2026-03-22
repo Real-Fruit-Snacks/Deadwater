@@ -101,7 +101,7 @@ function genPage(id) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>${title} — Deadwater Research</title>
 <meta name="description" content="${genParagraph(2).slice(0,160)}">
 <meta name="author" content="${authors[0]}">
@@ -375,7 +375,7 @@ function build() {
       const nlHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>${nlTitle} — Issue #${issueNum}</title>
 <meta name="description" content="Monthly research digest from Deadwater Research Institute. ${months[mo]} ${yr} edition featuring ${highlights.length} research highlights.">
 <meta property="og:title" content="${nlTitle}">
@@ -444,7 +444,7 @@ ${issueNum < 36 ? `<a href="/newsletter/issue-${issueNum+1}.html">Issue #${issue
   // Newsletter index page
   let nlIndex = `<!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>Newsletter Archive — Deadwater Research</title>
 <meta name="description" content="Complete archive of the Deadwater Research Digest. Monthly highlights from 2,800+ publications across 43 research domains.">
 <style>

@@ -16,6 +16,7 @@
 !public/sw.js
 !public/manifest.json
 !public/robots.txt
+!public/favicon.svg
 !public/humans.txt
 !public/.well-known/
 !public/.well-known/**

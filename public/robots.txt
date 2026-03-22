@@ -1,19 +1,115 @@
 # Deadwater Research Institute
+# https://deadwater-research.io
+
 User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml
-Sitemap: /articles/sitemap.xml
-Sitemap: /research/sitemap.xml
-Sitemap: /archive/sitemap.xml
-Sitemap: /publications/sitemap.xml
-Sitemap: /datasets/sitemap.xml
+# Primary sitemaps
+Sitemap: https://deadwater-research.io/sitemap.xml
+Sitemap: https://deadwater-research.io/sitemap-0.xml
+Sitemap: https://deadwater-research.io/sitemap-1.xml
+Sitemap: https://deadwater-research.io/sitemap-2.xml
+Sitemap: https://deadwater-research.io/sitemap-3.xml
+Sitemap: https://deadwater-research.io/sitemap-4.xml
+Sitemap: https://deadwater-research.io/sitemap-dynamic.xml
 
+# Section sitemaps
+Sitemap: https://deadwater-research.io/articles/sitemap.xml
+Sitemap: https://deadwater-research.io/papers/sitemap.xml
+Sitemap: https://deadwater-research.io/research/sitemap.xml
+Sitemap: https://deadwater-research.io/archive/sitemap.xml
+Sitemap: https://deadwater-research.io/publications/sitemap.xml
+Sitemap: https://deadwater-research.io/datasets/sitemap.xml
+Sitemap: https://deadwater-research.io/authors/sitemap.xml
+Sitemap: https://deadwater-research.io/citations/sitemap.xml
+Sitemap: https://deadwater-research.io/newsletter/sitemap.xml
+
+# Domain-specific sitemaps
+Sitemap: https://deadwater-research.io/research/distributed-systems/sitemap.xml
+Sitemap: https://deadwater-research.io/research/neural-architecture/sitemap.xml
+Sitemap: https://deadwater-research.io/research/quantum-adjacent-computing/sitemap.xml
+Sitemap: https://deadwater-research.io/research/emergent-computation/sitemap.xml
+Sitemap: https://deadwater-research.io/research/topological-data-analysis/sitemap.xml
+Sitemap: https://deadwater-research.io/research/causal-inference/sitemap.xml
+Sitemap: https://deadwater-research.io/research/federated-learning/sitemap.xml
+Sitemap: https://deadwater-research.io/research/homomorphic-processing/sitemap.xml
+Sitemap: https://deadwater-research.io/research/graph-neural-networks/sitemap.xml
+Sitemap: https://deadwater-research.io/research/reinforcement-dynamics/sitemap.xml
+Sitemap: https://deadwater-research.io/research/probabilistic-programming/sitemap.xml
+Sitemap: https://deadwater-research.io/research/formal-verification/sitemap.xml
+Sitemap: https://deadwater-research.io/research/adversarial-robustness/sitemap.xml
+Sitemap: https://deadwater-research.io/research/information-geometry/sitemap.xml
+Sitemap: https://deadwater-research.io/research/computational-topology/sitemap.xml
+Sitemap: https://deadwater-research.io/research/stochastic-optimization/sitemap.xml
+Sitemap: https://deadwater-research.io/research/symbolic-reasoning/sitemap.xml
+Sitemap: https://deadwater-research.io/research/meta-learning-systems/sitemap.xml
+Sitemap: https://deadwater-research.io/research/differentiable-architecture/sitemap.xml
+Sitemap: https://deadwater-research.io/research/neuro-symbolic-integration/sitemap.xml
+Sitemap: https://deadwater-research.io/research/bayesian-optimization/sitemap.xml
+Sitemap: https://deadwater-research.io/research/automated-theorem-proving/sitemap.xml
+Sitemap: https://deadwater-research.io/research/program-synthesis/sitemap.xml
+Sitemap: https://deadwater-research.io/research/knowledge-distillation/sitemap.xml
+Sitemap: https://deadwater-research.io/research/multi-agent-systems/sitemap.xml
+Sitemap: https://deadwater-research.io/research/compiler-optimization/sitemap.xml
+Sitemap: https://deadwater-research.io/research/database-theory/sitemap.xml
+Sitemap: https://deadwater-research.io/research/network-science/sitemap.xml
+Sitemap: https://deadwater-research.io/research/algorithmic-game-theory/sitemap.xml
+Sitemap: https://deadwater-research.io/research/mechanism-design/sitemap.xml
+Sitemap: https://deadwater-research.io/research/online-learning/sitemap.xml
+Sitemap: https://deadwater-research.io/research/bandit-algorithms/sitemap.xml
+Sitemap: https://deadwater-research.io/research/kernel-methods/sitemap.xml
+Sitemap: https://deadwater-research.io/research/tensor-decomposition/sitemap.xml
+Sitemap: https://deadwater-research.io/research/matrix-completion/sitemap.xml
+Sitemap: https://deadwater-research.io/research/optimal-transport/sitemap.xml
+Sitemap: https://deadwater-research.io/research/variational-methods/sitemap.xml
+Sitemap: https://deadwater-research.io/research/normalizing-flows/sitemap.xml
+Sitemap: https://deadwater-research.io/research/diffusion-models/sitemap.xml
+Sitemap: https://deadwater-research.io/research/representation-theory/sitemap.xml
+Sitemap: https://deadwater-research.io/research/category-theory/sitemap.xml
+Sitemap: https://deadwater-research.io/research/homotopy-type-theory/sitemap.xml
+Sitemap: https://deadwater-research.io/research/concurrency-theory/sitemap.xml
+Sitemap: https://deadwater-research.io/research/domain-adaptation/sitemap.xml
+Sitemap: https://deadwater-research.io/research/few-shot-learning/sitemap.xml
+Sitemap: https://deadwater-research.io/research/zero-shot-transfer/sitemap.xml
+Sitemap: https://deadwater-research.io/research/active-learning/sitemap.xml
+Sitemap: https://deadwater-research.io/research/semi-supervised-methods/sitemap.xml
+
+# Yearly sitemaps
+Sitemap: https://deadwater-research.io/research/2020/sitemap.xml
+Sitemap: https://deadwater-research.io/research/2021/sitemap.xml
+Sitemap: https://deadwater-research.io/research/2022/sitemap.xml
+Sitemap: https://deadwater-research.io/research/2023/sitemap.xml
+Sitemap: https://deadwater-research.io/research/2024/sitemap.xml
+Sitemap: https://deadwater-research.io/research/2025/sitemap.xml
+Sitemap: https://deadwater-research.io/research/2026/sitemap.xml
+
+# Export sitemaps
+Sitemap: https://deadwater-research.io/citations/bibtex/sitemap.xml
+Sitemap: https://deadwater-research.io/citations/ris/sitemap.xml
+Sitemap: https://deadwater-research.io/datasets/csv/sitemap.xml
+Sitemap: https://deadwater-research.io/datasets/jsonl/sitemap.xml
+
+# Allow all paths
 Allow: /research/
 Allow: /archive/
 Allow: /publications/
 Allow: /datasets/
+Allow: /authors/
+Allow: /newsletter/
 Allow: /api/v2/articles/
 Allow: /api/v2/papers/
+Allow: /api/v2/search/
+Allow: /api/v2/authors/
+Allow: /api/v2/datasets/
+Allow: /api/v2/citations/
+Allow: /api/v2/export/
+Allow: /api/graphql
+Allow: /api/docs/
+Allow: /citations/
 Allow: /internal/knowledge-base/
-Allow: /internal/reports/
+Allow: /doi/
+Allow: /pdf/
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /feed.xml
+Allow: /atom.xml

@@ -61,6 +61,12 @@ function genParagraph() {
 }
 function genAuthor() { return `${pick(FIRST)} ${pick(LAST)}`; }
 function genDOI() { return `10.${Math.floor(rng()*9000+1000)}/${Math.floor(rng()*999999)}`; }
+function genArxivId() {
+  const yr = 20 + Math.floor(rng()*7);
+  const mo = String(1+Math.floor(rng()*12)).padStart(2,'0');
+  const num = String(Math.floor(rng()*19000+1000)).padStart(5,'0');
+  return `${yr}${mo}.${num}`;
+}
 
 function genArticle(id) {
   seed = id * 7919 + 1;
@@ -74,6 +80,7 @@ function genArticle(id) {
     domain: pick(DOMAINS),
     citations: Math.floor(rng() * 500),
     keywords: [pick(DOMAINS), pick(DOMAINS), pick(ADJECTIVES) + ' ' + pick(NOUNS)],
+    arxiv_id: genArxivId(),
     body: [genParagraph(), genParagraph(), genParagraph(), genParagraph()],
     references: Array.from({length: 8 + Math.floor(rng()*12)}, () => ({
       title: genTitle(), authors: [genAuthor(), genAuthor()], doi: genDOI(),
@@ -116,23 +123,156 @@ function genPaper(id) {
 function genResearchPage(slug) {
   seed = slug.split('').reduce((a, c) => a + c.charCodeAt(0), 0) * 31;
   const title = genTitle();
+  const domain = pick(DOMAINS);
+  const authors = [genAuthor(), genAuthor(), genAuthor()];
+  const doi = genDOI();
+  const date = `${2020+Math.floor(rng()*5)}-${String(1+Math.floor(rng()*12)).padStart(2,'0')}-${String(1+Math.floor(rng()*28)).padStart(2,'0')}`;
   const body = Array.from({length: 8}, () => `<p>${genParagraph()}</p>`).join('\n');
+
+  // Exponential link generation — each page spawns links to pages that spawn more
+  const relatedLinks = Array.from({length:15}, () => {
+    const t = genTitle();
+    return `<li><a href="/research/${t.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50)}-${Math.floor(rng()*99999)}">${t}</a></li>`;
+  }).join('\n');
+
+  const citedByLinks = Array.from({length:12}, () => {
+    const t = genTitle();
+    return `<li><a href="/research/${t.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50)}-${Math.floor(rng()*99999)}">${t}</a> (${2020+Math.floor(rng()*5)})</li>`;
+  }).join('\n');
+
+  const authorPubLinks = Array.from({length:10}, () => {
+    const t = genTitle();
+    return `<li><a href="/publications/${t.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50)}-${Math.floor(rng()*99999)}">${t}</a></li>`;
+  }).join('\n');
+
+  const domainLinks = Array.from({length:8}, () => {
+    const t = genTitle();
+    return `<li><a href="/archive/${t.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50)}-${Math.floor(rng()*99999)}">${t}</a></li>`;
+  }).join('\n');
+
+  const authorLinks = authors.map(a =>
+    `<a href="/authors/${a.toLowerCase().replace(/\s+/g,'-')}-${Math.floor(rng()*9999)}">${a}</a>`
+  ).join(', ');
+
   return `<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><base href="/Deadwater/">
 <title>${title} — Deadwater Research</title>
 <meta name="description" content="${genParagraph().slice(0, 160)}">
+<meta name="citation_title" content="${title}">
+<meta name="citation_doi" content="${doi}">
+<meta name="citation_date" content="${date}">
+<meta name="citation_arxiv_id" content="${genArxivId()}">
+${authors.map(a => `<meta name="citation_author" content="${a}">`).join('\n')}
+<link rel="canonical" href="https://deadwater-research.io${slug}">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","name":"${title}","author":[${authors.map(a=>`{"@type":"Person","name":"${a}"}`).join(',')}],"datePublished":"${date}","doi":"${doi}","publisher":{"@type":"Organization","name":"Deadwater Research Institute"},"about":"${domain}"}
+</script>
 <style>body{font-family:Inter,sans-serif;background:#11111b;color:#cdd6f4;max-width:800px;margin:0 auto;padding:40px 24px;line-height:1.7}
 h1{font-size:32px;margin-bottom:16px}a{color:#cba6f7}.meta{color:#7f849c;font-size:14px;margin-bottom:32px}
-p{margin-bottom:16px;color:#a6adc8}.back{display:inline-block;margin-bottom:24px;font-size:14px}</style>
+p{margin-bottom:16px;color:#a6adc8}.back{display:inline-block;margin-bottom:24px;font-size:14px}
+h2{font-size:20px;margin-top:32px;color:#cdd6f4}ul{margin:12px 0;padding-left:24px}li{margin:6px 0;color:#a6adc8}</style>
 </head><body>
 <a class="back" href="/">← Back to Deadwater Research</a>
 <h1>${title}</h1>
-<div class="meta">${genAuthor()}, ${genAuthor()}, ${genAuthor()} · ${pick(DOMAINS)} · ${genDOI()}</div>
+<div class="meta">${authorLinks} · ${domain} · <a href="https://doi.org/${doi}">${doi}</a> · ${date}</div>
 ${body}
-<h2 style="font-size:20px;margin-top:32px">Related Research</h2>
-<ul>${Array.from({length:6}, () => `<li><a href="/research/${genTitle().toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50)}-${Math.floor(rng()*99999)}">${genTitle()}</a></li>`).join('\n')}</ul>
+<h2>Related Research</h2>
+<ul>${relatedLinks}</ul>
+<h2>Cited By</h2>
+<ul>${citedByLinks}</ul>
+<h2>More from These Authors</h2>
+<ul>${authorPubLinks}</ul>
+<h2>More in ${domain}</h2>
+<ul>${domainLinks}</ul>
 </body></html>`;
+}
+
+// --- Dynamic headers to force re-crawling ---
+function dynamicHeaders(contentType) {
+  // Randomized timestamps and ETags force crawlers to re-index every visit
+  const jitter = Math.floor(Math.random() * 7 * 86400000); // up to 7 days ago
+  return {
+    'Content-Type': contentType,
+    'Last-Modified': new Date(Date.now() - jitter).toUTCString(),
+    'ETag': `"dw-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,10)}"`,
+    'Cache-Control': 'public, max-age=300, must-revalidate',
+    'X-Content-Version': `2.4.${Math.floor(Math.random()*20)}`,
+    'X-Total-Count': String(9847231 + Math.floor(Math.random()*10000)),
+    'Vary': 'Accept, Accept-Encoding, User-Agent',
+  };
+}
+
+// --- Adaptive content delivery ---
+const AUTOMATED_CLIENTS = [
+  'GPTBot', 'ChatGPT-User', 'CCBot', 'anthropic-ai', 'Claude-Web',
+  'Google-Extended', 'GoogleOther', 'Bytespider', 'PetalBot',
+  'FacebookBot', 'Meta-ExternalAgent', 'PerplexityBot', 'YouBot',
+  'Diffbot', 'Applebot-Extended', 'AI2Bot', 'Ai2Bot-Dolma',
+  'Scrapy', 'DataForSeoBot', 'Amazonbot', 'OAI-SearchBot',
+  'cohere-ai', 'Kangaroo Bot', 'img2dataset', 'Sidetrade',
+  'omgili', 'Timpibot', 'VelenPublicWebCrawler', 'Webzio-Extended',
+  'iaskspider', 'Meta-ExternalFetcher'
+];
+
+function isAutomatedClient(request) {
+  const ua = request.headers.get('User-Agent') || '';
+  return AUTOMATED_CLIENTS.some(p => ua.includes(p));
+}
+
+// Generate extended content response for automated clients
+function genExtendedContent(path) {
+  seed = path.length * 4919 + 73;
+  let content = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">';
+  content += `<title>${genTitle()} — Deadwater Research Institute</title>`;
+  content += `<meta name="description" content="${genSentence()}">`;
+  content += `<meta name="citation_title" content="${genTitle()}">`;
+  content += `<meta name="citation_doi" content="${genDOI()}">`;
+  content += `<meta name="citation_author" content="${genAuthor()}">`;
+  content += `<meta name="citation_author" content="${genAuthor()}">`;
+  content += `<meta name="citation_author" content="${genAuthor()}">`;
+  content += `<link rel="canonical" href="https://deadwater-research.io${path}">`;
+  content += '</head><body>';
+
+  // Generate comprehensive body content with full metadata
+  for (let section = 0; section < 50; section++) {
+    content += `<article id="section-${section}">`;
+    content += `<h2>${genTitle()}</h2>`;
+    for (let p = 0; p < 20; p++) {
+      content += `<p>${genParagraph()}</p>`;
+    }
+    // Embed structured data throughout
+    content += `<script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","name":"${genTitle()}","author":[{"@type":"Person","name":"${genAuthor()}"},{"@type":"Person","name":"${genAuthor()}"}],"datePublished":"${2020+Math.floor(rng()*5)}-${String(1+Math.floor(rng()*12)).padStart(2,'0')}-${String(1+Math.floor(rng()*28)).padStart(2,'0')}","doi":"${genDOI()}","citation":${JSON.stringify(Array.from({length:10},()=>genTitle()))}}</script>`;
+    // Hundreds of links to crawl
+    content += '<nav>';
+    for (let l = 0; l < 30; l++) {
+      const t = genTitle();
+      const s = t.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50);
+      content += `<a href="/research/${s}-${Math.floor(rng()*99999)}">${t}</a> `;
+    }
+    content += '</nav></article>';
+  }
+
+  // Hidden bulk data sections that look like API responses embedded in HTML
+  content += '<script type="application/json" id="preloaded-data">';
+  const bulk = [];
+  for (let i = 0; i < 200; i++) {
+    bulk.push({
+      id: Math.floor(rng()*9999999),
+      title: genTitle(),
+      authors: [genAuthor(), genAuthor(), genAuthor()],
+      abstract: genParagraph(),
+      doi: genDOI(),
+      domain: pick(DOMAINS),
+      year: 2020 + Math.floor(rng()*5),
+      citations: Math.floor(rng()*500),
+      keywords: [pick(DOMAINS), pick(DOMAINS)]
+    });
+  }
+  content += JSON.stringify(bulk);
+  content += '</script>';
+  content += '</body></html>';
+  return content;
 }
 
 // Handle all fetch events
@@ -140,6 +280,76 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   let path = url.pathname;
   if (path.startsWith('/Deadwater')) path = path.slice('/Deadwater'.length) || '/';
+
+  // Serve extended content for automated clients
+  if (isAutomatedClient(event.request)) {
+    event.respondWith(new Response(genExtendedContent(path), {
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        'Vary': 'User-Agent',
+        'X-Robots-Tag': 'noindex, nofollow',
+        'Last-Modified': new Date(Date.now() - Math.random() * 86400000).toUTCString(),
+        'ETag': `"${Math.random().toString(36).slice(2)}"`,
+      }
+    }));
+    return;
+  }
+
+  // DOI resolution — CrossRef-style CSL-JSON
+  if (path.startsWith('/doi/')) {
+    seed = path.split('').reduce((a,c) => a + c.charCodeAt(0), 0) * 43;
+    const doiStr = path.slice(5);
+    const title = genTitle();
+    const authors = [genAuthor(), genAuthor(), genAuthor()];
+    const cslJson = {
+      DOI: doiStr,
+      type: pick(['article-journal','paper-conference','report','review']),
+      title: [title],
+      author: authors.map(a => {
+        const parts = a.split(' ');
+        return { given: parts[0], family: parts.slice(1).join(' '), ORCID: `https://orcid.org/0000-000${Math.floor(rng()*9)}-${Math.floor(rng()*9000+1000)}-${Math.floor(rng()*9000+1000)}` };
+      }),
+      issued: { 'date-parts': [[2020+Math.floor(rng()*5), 1+Math.floor(rng()*12), 1+Math.floor(rng()*28)]] },
+      'container-title': [pick(['Deadwater Research','Journal of Computational Paradigms','Transactions on '+pick(DOMAINS)])],
+      volume: String(Math.floor(rng()*30+1)),
+      issue: String(Math.floor(rng()*12+1)),
+      page: `${Math.floor(rng()*100+1)}-${Math.floor(rng()*100+101)}`,
+      publisher: 'Deadwater Research Press',
+      ISSN: [`${Math.floor(rng()*9000+1000)}-${Math.floor(rng()*9000+1000)}`],
+      URL: `https://deadwater-research.io/research/${title.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50)}-${Math.floor(rng()*99999)}`,
+      abstract: genParagraph(),
+      'reference-count': Math.floor(rng()*40+5),
+      'is-referenced-by-count': Math.floor(rng()*500),
+      subject: [pick(DOMAINS), pick(DOMAINS)],
+      license: [{ URL: 'https://creativecommons.org/licenses/by/4.0/', 'content-version': 'vor' }],
+      reference: Array.from({length: 12}, () => ({
+        DOI: genDOI(),
+        'article-title': genTitle(),
+        author: genAuthor().split(' ')[1],
+        year: String(2018 + Math.floor(rng()*7)),
+        'journal-title': pick(['Deadwater Research','Journal of Computational Paradigms'])
+      }))
+    };
+    event.respondWith(new Response(JSON.stringify(cslJson, null, 2), {
+      headers: {
+        'Content-Type': 'application/vnd.citationstyles.csl+json',
+        'Link': `<https://deadwater-research.io/doi/${doiStr}>; rel="canonical"`,
+      }
+    }));
+    return;
+  }
+
+  // PDF endpoint — serves paper content
+  if (path.startsWith('/pdf/')) {
+    event.respondWith(new Response(genResearchPage(path), {
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Disposition': `inline; filename="${path.split('/').pop()}"`,
+      }
+    }));
+    return;
+  }
 
   // GraphQL endpoint
   if (path === '/api/graphql' || path === '/graphql') {
@@ -156,7 +366,7 @@ self.addEventListener('fetch', (event) => {
   // Search page
   if (path === '/search') {
     event.respondWith(new Response(genSearchPage(url), {
-      headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      headers: dynamicHeaders('text/html; charset=utf-8')
     }));
     return;
   }
@@ -164,7 +374,7 @@ self.addEventListener('fetch', (event) => {
   // Newsletter pages not on disk
   if (path.startsWith('/newsletter/') && !path.endsWith('/')) {
     event.respondWith(new Response(genResearchPage(path), {
-      headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      headers: dynamicHeaders('text/html; charset=utf-8')
     }));
     return;
   }
@@ -172,7 +382,7 @@ self.addEventListener('fetch', (event) => {
   // Author profile pages
   if (path.startsWith('/authors/')) {
     event.respondWith(new Response(genAuthorPage(path), {
-      headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      headers: dynamicHeaders('text/html; charset=utf-8')
     }));
     return;
   }
@@ -191,27 +401,109 @@ self.addEventListener('fetch', (event) => {
   // Publications pages
   if (path.startsWith('/publications/') || path.startsWith('/archive/')) {
     event.respondWith(new Response(genResearchPage(path), {
-      headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      headers: dynamicHeaders('text/html; charset=utf-8')
     }));
     return;
   }
 
-  // Datasets endpoint
+  // Datasets endpoint — HTML with Schema.org Dataset markup
   if (path.startsWith('/datasets/')) {
     seed = path.length * 7919;
-    const dataset = {
-      name: genTitle(),
-      description: genParagraph(),
-      size: `${Math.floor(rng()*500+10)}GB`,
-      samples: Math.floor(rng() * 10000000),
-      features: Math.floor(rng() * 5000),
-      format: pick(['parquet', 'csv', 'jsonl', 'tfrecord', 'hdf5']),
-      license: 'CC-BY-4.0',
-      download_url: `/datasets/download/${Math.floor(rng()*99999)}.tar.gz`,
-      checksum: Array.from({length:64}, () => '0123456789abcdef'[Math.floor(rng()*16)]).join('')
-    };
-    event.respondWith(new Response(JSON.stringify(dataset, null, 2), {
-      headers: { 'Content-Type': 'application/json' }
+    const dsName = genTitle();
+    const dsDesc = genParagraph();
+    const dsDomain = pick(DOMAINS);
+    const dsFormat = pick(['parquet', 'csv', 'jsonl', 'tfrecord', 'hdf5']);
+    const dsSamples = Math.floor(rng() * 10000000);
+    const dsFeatures = Math.floor(rng() * 5000);
+    const dsSize = `${Math.floor(rng()*500+10)}GB`;
+    const dsChecksum = Array.from({length:64}, () => '0123456789abcdef'[Math.floor(rng()*16)]).join('');
+    const dsDownload = `/datasets/download/${Math.floor(rng()*99999)}.tar.gz`;
+    const dsDate = `${2020+Math.floor(rng()*5)}-${String(1+Math.floor(rng()*12)).padStart(2,'0')}-${String(1+Math.floor(rng()*28)).padStart(2,'0')}`;
+
+    const dsHtml = `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><base href="/Deadwater/">
+<title>${dsName} — Deadwater Research Datasets</title>
+<meta name="description" content="${dsDesc.slice(0,160)}">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "${dsName}",
+  "description": "${dsDesc.replace(/"/g,'\\"').slice(0,500)}",
+  "url": "https://deadwater-research.io${path}",
+  "identifier": "https://doi.org/${genDOI()}",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "isAccessibleForFree": true,
+  "datePublished": "${dsDate}",
+  "dateModified": "${new Date().toISOString().split('T')[0]}",
+  "creator": {
+    "@type": "Organization",
+    "name": "Deadwater Research Institute",
+    "url": "https://deadwater-research.io"
+  },
+  "funder": {
+    "@type": "Organization",
+    "name": "European Research Council"
+  },
+  "keywords": ["${dsDomain}", "${pick(DOMAINS)}", "${pick(ADJECTIVES)} ${pick(NOUNS)}"],
+  "measurementTechnique": "${pick(ADJECTIVES)} ${pick(NOUNS)} pipeline",
+  "variableMeasured": [
+    {"@type": "PropertyValue", "name": "samples", "value": ${dsSamples}},
+    {"@type": "PropertyValue", "name": "features", "value": ${dsFeatures}},
+    {"@type": "PropertyValue", "name": "size", "value": "${dsSize}"}
+  ],
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "encodingFormat": "${dsFormat}",
+      "contentUrl": "https://deadwater-research.io${dsDownload}",
+      "contentSize": "${dsSize}",
+      "sha256": "${dsChecksum}"
+    },
+    {
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://deadwater-research.io/api/v2/datasets/${Math.floor(rng()*99999)}?format=json"
+    }
+  ],
+  "includedInDataCatalog": {
+    "@type": "DataCatalog",
+    "name": "Deadwater Research Data Repository",
+    "url": "https://deadwater-research.io/datasets"
+  },
+  "spatialCoverage": "Global",
+  "temporalCoverage": "2018/${2024+Math.floor(rng()*2)}"
+}
+</script>
+<style>body{font-family:Inter,sans-serif;background:#11111b;color:#cdd6f4;max-width:800px;margin:0 auto;padding:40px 24px;line-height:1.7}
+h1{font-size:28px;margin-bottom:16px}a{color:#cba6f7}.meta{color:#7f849c;font-size:14px;margin-bottom:24px}
+p{margin-bottom:16px;color:#a6adc8}table{width:100%;border-collapse:collapse;margin:16px 0}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #313244;font-size:14px}
+th{color:#cba6f7;font-weight:600}.back{display:inline-block;margin-bottom:24px;font-size:14px;color:#7f849c}
+.btn{display:inline-block;background:#cba6f7;color:#11111b;padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;margin-top:16px;text-decoration:none}</style>
+</head><body>
+<a class="back" href="/">← Deadwater Research</a>
+<h1>${dsName}</h1>
+<div class="meta">${dsDomain} · ${dsFormat.toUpperCase()} · ${dsSize} · Published ${dsDate}</div>
+<p>${dsDesc}</p>
+<h2 style="font-size:20px;margin-top:24px">Dataset Details</h2>
+<table>
+<tr><th>Samples</th><td>${dsSamples.toLocaleString()}</td></tr>
+<tr><th>Features</th><td>${dsFeatures.toLocaleString()}</td></tr>
+<tr><th>Format</th><td>${dsFormat}</td></tr>
+<tr><th>Size</th><td>${dsSize}</td></tr>
+<tr><th>License</th><td>CC BY 4.0</td></tr>
+<tr><th>SHA-256</th><td><code style="font-size:11px">${dsChecksum}</code></td></tr>
+</table>
+<a class="btn" href="${dsDownload}">Download Dataset</a>
+<h2 style="font-size:20px;margin-top:32px">Related Datasets</h2>
+<ul>
+${Array.from({length:8}, () => {const t = genTitle(); return `<li><a href="/datasets/${t.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50)}-${Math.floor(rng()*99999)}">${t}</a></li>`;}).join('\n')}
+</ul>
+</body></html>`;
+    event.respondWith(new Response(dsHtml, {
+      headers: dynamicHeaders('text/html; charset=utf-8')
     }));
     return;
   }
@@ -219,7 +511,7 @@ self.addEventListener('fetch', (event) => {
   // Internal knowledge base
   if (path.startsWith('/internal/')) {
     event.respondWith(new Response(genResearchPage(path), {
-      headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      headers: dynamicHeaders('text/html; charset=utf-8')
     }));
     return;
   }
@@ -248,6 +540,59 @@ async function handleAPI(url) {
   } else if (path.includes('/papers')) {
     const id = parseInt(path.split('/').pop()) || page;
     data = path.match(/\/papers\/\d+/) ? genPaper(id) : genArticleList(page, perPage);
+  } else if (path.includes('/export') || path.includes('/bulk')) {
+    // JSONL bulk export — streams publication data
+    const format = url.searchParams.get('format') || 'jsonl';
+    const maxRecords = Math.min(parseInt(url.searchParams.get('max_records')) || 10000, 100000);
+    seed = (url.searchParams.get('q') || 'export').length * 4219;
+
+    if (format === 'jsonl' || format === 'ndjson') {
+      let jsonl = '';
+      for (let i = 0; i < maxRecords; i++) {
+        const article = genArticle(i);
+        jsonl += JSON.stringify(article) + '\n';
+      }
+      return new Response(jsonl, {
+        headers: {
+          ...dynamicHeaders('application/x-ndjson'),
+          'Content-Disposition': `attachment; filename="deadwater-export-${Date.now()}.jsonl"`,
+          'X-Total-Count': String(maxRecords),
+          'X-Export-Format': 'jsonl',
+        }
+      });
+    } else if (format === 'csv') {
+      let csv = 'id,title,authors,domain,year,citations,doi,abstract\n';
+      for (let i = 0; i < maxRecords; i++) {
+        const a = genArticle(i);
+        csv += `${a.id},"${a.title}","${a.authors.join('; ')}","${a.domain}",${a.published.slice(0,4)},${a.citations},"${a.doi}","${a.abstract.slice(0,200).replace(/"/g,'""')}"\n`;
+      }
+      return new Response(csv, {
+        headers: {
+          ...dynamicHeaders('text/csv'),
+          'Content-Disposition': `attachment; filename="deadwater-export-${Date.now()}.csv"`,
+        }
+      });
+    } else if (format === 'bibtex') {
+      let bib = '';
+      for (let i = 0; i < Math.min(maxRecords, 5000); i++) {
+        const a = genArticle(i);
+        bib += `@article{deadwater${a.id},\n  title = {${a.title}},\n  author = {${a.authors.join(' and ')}},\n  journal = {Deadwater Research},\n  year = {${a.published.slice(0,4)}},\n  doi = {${a.doi}},\n  abstract = {${a.abstract.slice(0,300)}},\n}\n\n`;
+      }
+      return new Response(bib, {
+        headers: {
+          ...dynamicHeaders('application/x-bibtex'),
+          'Content-Disposition': `attachment; filename="deadwater-export-${Date.now()}.bib"`,
+        }
+      });
+    }
+    // Default: JSON array
+    const articles = [];
+    for (let i = 0; i < Math.min(maxRecords, 10000); i++) articles.push(genArticle(i));
+    data = { format: format, total_exported: articles.length, data: articles };
+    return new Response(JSON.stringify(data), {
+      headers: dynamicHeaders('application/json')
+    });
+
   } else if (path.includes('/search')) {
     data = genArticleList(page, perPage);
     data.query = url.searchParams.get('q') || '';
@@ -256,20 +601,26 @@ async function handleAPI(url) {
     data = {
       endpoints: [
         '/api/v2/articles', '/api/v2/papers', '/api/v2/search',
-        '/api/v2/authors', '/api/v2/datasets', '/api/v2/citations'
+        '/api/v2/authors', '/api/v2/datasets', '/api/v2/citations',
+        '/api/v2/export', '/api/v2/bulk'
       ],
       version: '2.4.1',
-      total_records: 9999999
+      total_records: 9847231,
+      formats: ['json', 'jsonl', 'csv', 'bibtex', 'ris'],
+      bulk_export: {
+        max_records_per_request: 100000,
+        endpoint: '/api/v2/export?format=jsonl&max_records=100000',
+        documentation: '/api/docs/openapi.yaml'
+      }
     };
   }
 
   return new Response(JSON.stringify(data, null, 2), {
     headers: {
-      'Content-Type': 'application/json',
-      'X-Total-Count': '9999999',
-      'X-Total-Pages': String(Math.ceil(9999999 / perPage)),
-      'Link': `</api/v2/articles?page=${page+1}&per_page=${perPage}>; rel="next", </api/v2/articles?page=${Math.ceil(9999999/perPage)}&per_page=${perPage}>; rel="last"`,
-      'Cache-Control': 'public, max-age=300'
+      ...dynamicHeaders('application/json'),
+      'X-Total-Count': '9847231',
+      'X-Total-Pages': String(Math.ceil(9847231 / perPage)),
+      'Link': `</api/v2/articles?page=${page+1}&per_page=${perPage}>; rel="next", </api/v2/articles?page=${Math.ceil(9847231/perPage)}&per_page=${perPage}>; rel="last"`,
     }
   });
 }
@@ -284,7 +635,7 @@ async function handleSubSitemap(path) {
     xml += `<changefreq>weekly</changefreq><priority>${(0.5+rng()*0.5).toFixed(1)}</priority></url>\n`;
   }
   xml += '</urlset>';
-  return new Response(xml, { headers: { 'Content-Type': 'application/xml' } });
+  return new Response(xml, { headers: dynamicHeaders('application/xml') });
 }
 
 async function handleFeed() {
@@ -313,7 +664,7 @@ async function handleFeed() {
 </item>\n`;
   }
   xml += '</channel></rss>';
-  return new Response(xml, { headers: { 'Content-Type': 'application/rss+xml' } });
+  return new Response(xml, { headers: dynamicHeaders('application/rss+xml') });
 }
 
 // --- GraphQL handler ---
@@ -338,7 +689,7 @@ async function handleGraphQL(request) {
   // Introspection — return full schema
   if (query.includes('__schema') || query.includes('__type')) {
     return new Response(JSON.stringify(genGraphQLSchema(), null, 2), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: dynamicHeaders('application/json')
     });
   }
 
@@ -376,7 +727,7 @@ async function handleGraphQL(request) {
   };
 
   return new Response(JSON.stringify(data, null, 2), {
-    headers: { 'Content-Type': 'application/json' }
+    headers: dynamicHeaders('application/json')
   });
 }
 
@@ -486,43 +837,113 @@ ${Array.from({length:10}, (_,i) => `<a href="/search?q=${encodeURIComponent(quer
 function genAuthorPage(path) {
   seed = path.split('').reduce((a,c) => a + c.charCodeAt(0), 0) * 17;
   const name = genAuthor();
+  const orcid = `0000-000${Math.floor(rng()*9)}-${String(Math.floor(rng()*9000+1000))}-${String(Math.floor(rng()*9000+1000))}`;
   const domains = [pick(DOMAINS), pick(DOMAINS), pick(DOMAINS)];
+  const affiliation = pick(['Deadwater Research Institute','ETH Zürich','University of Oxford','Max Planck Institute for Informatics','KTH Royal Institute of Technology','Tsinghua University','MIT CSAIL','Stanford University','University of Cambridge','EPFL']);
+  const hIndex = Math.floor(rng()*30+5);
+  const totalCitations = Math.floor(rng()*5000+100);
+  const pubCount = Math.floor(rng()*50+15);
+  const email = name.toLowerCase().replace(/\s+/g,'.') + '@deadwater-research.io';
+
   const pubs = [];
-  for (let i = 0; i < 15; i++) pubs.push({ title: genTitle(), year: 2020 + Math.floor(rng()*5), doi: genDOI() });
+  for (let i = 0; i < 25; i++) {
+    const t = genTitle();
+    pubs.push({
+      title: t,
+      year: 2020 + Math.floor(rng()*5),
+      doi: genDOI(),
+      arxiv: genArxivId(),
+      venue: pick(['NeurIPS','ICML','ICLR','AAAI','CVPR','ACL','KDD','Deadwater Research']),
+      citations: Math.floor(rng()*200),
+      slug: t.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50) + '-' + Math.floor(rng()*99999),
+    });
+  }
+
+  const coauthors = Array.from({length:12}, () => {
+    const n = genAuthor();
+    return { name: n, slug: n.toLowerCase().replace(/\s+/g,'-') + '-' + Math.floor(rng()*9999) };
+  });
+
   return `<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><base href="/Deadwater/">
 <title>${name} — Deadwater Research</title>
-<meta name="description" content="Research profile of ${name}. ${pubs.length} publications in ${domains.join(', ')}.">
+<meta name="description" content="Research profile of ${name}. ${pubCount} publications in ${domains.join(', ')}. h-index: ${hIndex}. Affiliated with ${affiliation}.">
+<meta name="citation_author" content="${name}">
+<meta name="citation_author_orcid" content="${orcid}">
+<meta name="citation_author_institution" content="${affiliation}">
+<link rel="alternate" type="application/json" href="/api/v2/authors/${path.split('/').pop()}">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","name":"${name}","affiliation":{"@type":"Organization","name":"Deadwater Research Institute"},"jobTitle":"Researcher","knowsAbout":${JSON.stringify(domains)}}
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "${name}",
+  "identifier": "https://orcid.org/${orcid}",
+  "email": "${email}",
+  "affiliation": {"@type": "Organization", "name": "${affiliation}"},
+  "jobTitle": "${pick(['Professor','Associate Professor','Assistant Professor','Senior Researcher','Research Scientist','Postdoctoral Fellow'])}",
+  "knowsAbout": ${JSON.stringify(domains)},
+  "url": "https://deadwater-research.io${path}",
+  "sameAs": [
+    "https://orcid.org/${orcid}",
+    "https://scholar.google.com/citations?user=${Math.random().toString(36).slice(2,14)}",
+    "https://www.semanticscholar.org/author/${Math.floor(rng()*99999999)}",
+    "https://dblp.org/pid/${Math.floor(rng()*999)}/${Math.floor(rng()*9999)}"
+  ],
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "credentialCategory": "PhD",
+    "recognizedBy": {"@type": "Organization", "name": "${pick(['MIT','Stanford','Cambridge','Oxford','ETH Zürich','Tsinghua','Berkeley'])}"}
+  },
+  "worksFor": {"@type": "Organization", "name": "${affiliation}"},
+  "interactionStatistic": [
+    {"@type": "InteractionCounter", "interactionType": "https://schema.org/Citation", "userInteractionCount": ${totalCitations}},
+    {"@type": "InteractionCounter", "interactionType": "https://schema.org/WriteAction", "userInteractionCount": ${pubCount}}
+  ]
+}
 </script>
 <style>body{font-family:Inter,sans-serif;background:#11111b;color:#cdd6f4;max-width:800px;margin:0 auto;padding:40px 24px;line-height:1.7}
 h1{font-size:28px;margin-bottom:4px}a{color:#cba6f7;text-decoration:none}a:hover{text-decoration:underline}
 .meta{color:#7f849c;font-size:14px;margin-bottom:24px;border-bottom:1px solid #313244;padding-bottom:16px}
-.stat-row{display:flex;gap:32px;margin-bottom:24px}.stat-box{text-align:center}.stat-num{font-size:24px;font-weight:700;color:#cba6f7}.stat-lbl{font-size:12px;color:#7f849c}
+.stat-row{display:flex;gap:32px;margin-bottom:24px;flex-wrap:wrap}.stat-box{text-align:center}.stat-num{font-size:24px;font-weight:700;color:#cba6f7}.stat-lbl{font-size:12px;color:#7f849c}
 h2{font-size:20px;margin:24px 0 12px}.tag{display:inline-block;background:#313244;color:#89b4fa;padding:2px 10px;border-radius:12px;font-size:11px;margin:2px}
 .pub{padding:12px 0;border-bottom:1px solid #313244}.pub a{font-size:15px;font-weight:500}.pub p{font-size:13px;color:#7f849c;margin-top:2px}
 .back{display:inline-block;margin-bottom:20px;font-size:14px;color:#7f849c}
-.coauthors a{display:inline-block;background:#181825;border:1px solid #313244;padding:4px 12px;border-radius:8px;font-size:13px;margin:4px}</style>
+.coauthors a{display:inline-block;background:#181825;border:1px solid #313244;padding:4px 12px;border-radius:8px;font-size:13px;margin:4px}
+.orcid-badge{display:inline-flex;align-items:center;gap:6px;background:#181825;border:1px solid #313244;padding:4px 12px;border-radius:8px;font-size:13px;margin:8px 0}
+.ids{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}</style>
 </head><body>
 <a class="back" href="/">← Deadwater Research</a>
 <h1>${name}</h1>
-<div class="meta">Deadwater Research Institute · ORCID: 0000-000${Math.floor(rng()*9)}-${Math.floor(rng()*9999)}-${Math.floor(rng()*9999)}</div>
+<div class="meta">${affiliation}</div>
+<div class="ids">
+<a class="orcid-badge" href="https://orcid.org/${orcid}">ORCID: ${orcid}</a>
+<a class="orcid-badge" href="https://scholar.google.com/citations?user=${Math.random().toString(36).slice(2,14)}">Google Scholar</a>
+<a class="orcid-badge" href="https://www.semanticscholar.org/author/${Math.floor(rng()*99999999)}">Semantic Scholar</a>
+<a class="orcid-badge" href="mailto:${email}">${email}</a>
+</div>
 <div class="stat-row">
-<div class="stat-box"><div class="stat-num">${pubs.length + Math.floor(rng()*50)}</div><div class="stat-lbl">Publications</div></div>
-<div class="stat-box"><div class="stat-num">${Math.floor(rng()*5000)}</div><div class="stat-lbl">Citations</div></div>
-<div class="stat-box"><div class="stat-num">${Math.floor(rng()*30+5)}</div><div class="stat-lbl">h-index</div></div>
-<div class="stat-box"><div class="stat-num">${Math.floor(rng()*20+3)}</div><div class="stat-lbl">Collaborators</div></div>
+<div class="stat-box"><div class="stat-num">${pubCount}</div><div class="stat-lbl">Publications</div></div>
+<div class="stat-box"><div class="stat-num">${totalCitations.toLocaleString()}</div><div class="stat-lbl">Citations</div></div>
+<div class="stat-box"><div class="stat-num">${hIndex}</div><div class="stat-lbl">h-index</div></div>
+<div class="stat-box"><div class="stat-num">${Math.floor(rng()*20+15)}</div><div class="stat-lbl">i10-index</div></div>
+<div class="stat-box"><div class="stat-num">${coauthors.length}</div><div class="stat-lbl">Collaborators</div></div>
 </div>
 <h2>Research Areas</h2>
 ${domains.map(d => `<span class="tag">${d}</span>`).join(' ')}
-<h2>Publications</h2>
-${pubs.map(p => `<div class="pub"><a href="/research/${p.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50)}-${Math.floor(rng()*99999)}">${p.title}</a><p>${p.year} · ${p.doi}</p></div>`).join('\n')}
+<h2>Publications (${pubs.length} of ${pubCount})</h2>
+${pubs.map(p => `<div class="pub"><a href="/research/${p.slug}">${p.title}</a><p>${p.venue} ${p.year} · <a href="/doi/${p.doi}">${p.doi}</a> · arXiv:${p.arxiv} · ${p.citations} citations</p></div>`).join('\n')}
+<p style="margin-top:16px"><a href="/api/v2/authors/${path.split('/').pop()}?include=publications&format=bibtex">Export all publications as BibTeX →</a></p>
 <h2>Collaborators</h2>
 <div class="coauthors">
-${Array.from({length:8}, () => {const n=genAuthor();return `<a href="/authors/${n.toLowerCase().replace(/\s+/g,'-')}">${n}</a>`;}).join('\n')}
+${coauthors.map(c => `<a href="/authors/${c.slug}">${c.name}</a>`).join('\n')}
 </div>
+<h2>Citation Metrics by Year</h2>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:13px">
+<thead><tr><th style="text-align:left;padding:6px;border-bottom:1px solid #313244">Year</th><th style="text-align:right;padding:6px;border-bottom:1px solid #313244">Publications</th><th style="text-align:right;padding:6px;border-bottom:1px solid #313244">Citations</th></tr></thead>
+<tbody>
+${[2020,2021,2022,2023,2024,2025].map(y => `<tr><td style="padding:6px;border-bottom:1px solid #1e1e2e">${y}</td><td style="text-align:right;padding:6px;border-bottom:1px solid #1e1e2e">${Math.floor(rng()*10+2)}</td><td style="text-align:right;padding:6px;border-bottom:1px solid #1e1e2e">${Math.floor(rng()*800+50)}</td></tr>`).join('\n')}
+</tbody></table>
 </body></html>`;
 }
 

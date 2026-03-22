@@ -1,9 +1,32 @@
-# Deadwater Research Institute Security Policy
+# Deadwater Research Institute — Security Policy
+# https://deadwater-research.io/.well-known/security.txt
+# Last updated: 2026-03-10
+
 Contact: mailto:security@deadwater-research.io
-Encryption: https://deadwater-research.io/.well-known/pgp-key.txt
+Contact: mailto:ciso@deadwater-research.io
+Contact: https://deadwater-research.io/security/report
+Encryption: https://deadwater-research.io/.well-known/pgp-key.asc
 Acknowledgments: https://deadwater-research.io/security/hall-of-fame
 Policy: https://deadwater-research.io/security/policy
-Preferred-Languages: en
+Preferred-Languages: en, de, fr
 Canonical: https://deadwater-research.io/.well-known/security.txt
-Expires: 2099-12-31T23:59:59.000Z
+Expires: 2027-04-01T00:00:00.000Z
 Hiring: https://deadwater-research.io/careers/security
+
+# Our security team reviews all submissions within 48 hours.
+# For critical vulnerabilities affecting user data or API access,
+# please use our PGP key for encrypted communication.
+#
+# Bug Bounty Program
+# We offer monetary rewards for qualifying security reports:
+#   Critical: CHF 5,000 - 15,000
+#   High:     CHF 2,000 - 5,000
+#   Medium:   CHF 500 - 2,000
+#   Low:      CHF 100 - 500
+# Details: https://deadwater-research.io/security/bounty
+#
+# Scope includes: deadwater-research.io, api.deadwater-research.io,
+# staging-api.deadwater-research.io, and all subdomains.
+#
+# CSAF: https://deadwater-research.io/.well-known/csaf/provider-metadata.json
+# CISO: Dr. Marcus Reeves-Chatterjee (m.reeves@deadwater-research.io)

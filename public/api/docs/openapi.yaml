@@ -1,0 +1,673 @@
+openapi: 3.1.0
+info:
+  title: Deadwater Research API
+  version: 2.4.1
+  description: |
+    The Deadwater Research API provides programmatic access to over 9.8 million
+    peer-reviewed computational research publications, author profiles, citation
+    graphs, and datasets.
+
+    ## Authentication
+    - Anonymous: 100 requests/hour
+    - API Key (free): 1,000 requests/hour — pass via `X-API-Key` header
+    - Institutional: 50,000 requests/hour — contact api-support@deadwater-research.io
+
+    ## Rate Limiting
+    Rate limit headers are included in every response:
+    - `X-RateLimit-Limit`: Maximum requests per hour
+    - `X-RateLimit-Remaining`: Remaining requests in current window
+    - `X-RateLimit-Reset`: Unix timestamp when the window resets
+
+    ## Pagination
+    All list endpoints support cursor-based and offset pagination.
+    Response headers include `X-Total-Count`, `X-Total-Pages`, and RFC 8288 `Link` headers.
+
+    ## Bulk Export
+    Use POST /export for large-scale data retrieval. Supports streaming JSONL
+    for datasets up to 1 million records per request.
+  contact:
+    name: Deadwater API Support
+    email: api-support@deadwater-research.io
+    url: https://deadwater-research.io/api/docs
+  license:
+    name: CC BY 4.0
+    url: https://creativecommons.org/licenses/by/4.0/
+  termsOfService: https://deadwater-research.io/legal/terms
+
+servers:
+  - url: https://deadwater-research.io/api/v2
+    description: Production
+  - url: https://staging-api.deadwater-research.io/api/v2
+    description: Staging (rate limits relaxed)
+
+tags:
+  - name: Articles
+    description: Research articles with full text, metadata, and citation metrics
+  - name: Papers
+    description: Conference and journal papers with venue information
+  - name: Authors
+    description: Researcher profiles with publication history and impact metrics
+  - name: Search
+    description: Full-text hybrid search (BM25 + semantic similarity)
+  - name: Datasets
+    description: Research datasets with download links and checksums
+  - name: Citations
+    description: Citation graph traversal and analysis
+  - name: Export
+    description: Bulk data export in multiple formats
+  - name: Newsletters
+    description: Monthly research digest archive
+
+paths:
+  /articles:
+    get:
+      operationId: listArticles
+      summary: List articles with pagination
+      tags: [Articles]
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1, minimum: 1 }
+          description: Page number (1-indexed)
+        - name: per_page
+          in: query
+          schema: { type: integer, default: 20, minimum: 1, maximum: 100 }
+          description: Results per page
+        - name: domain
+          in: query
+          schema: { type: string }
+          description: Filter by research domain
+          examples:
+            distributed: { value: "Distributed Systems" }
+            neural: { value: "Neural Architecture" }
+            quantum: { value: "Quantum-Adjacent Computing" }
+        - name: year_min
+          in: query
+          schema: { type: integer }
+          description: Minimum publication year
+        - name: year_max
+          in: query
+          schema: { type: integer }
+          description: Maximum publication year
+        - name: min_citations
+          in: query
+          schema: { type: integer, default: 0 }
+          description: Minimum citation count
+        - name: sort
+          in: query
+          schema: { type: string, enum: [relevance, date, citations, title] }
+          description: Sort field
+        - name: order
+          in: query
+          schema: { type: string, enum: [asc, desc], default: desc }
+          description: Sort order
+      responses:
+        '200':
+          description: Paginated list of articles
+          headers:
+            X-Total-Count:
+              schema: { type: integer }
+              description: Total number of matching articles
+            X-Total-Pages:
+              schema: { type: integer }
+              description: Total number of pages
+            Link:
+              schema: { type: string }
+              description: RFC 8288 pagination links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleListResponse'
+
+  /articles/{id}:
+    get:
+      operationId: getArticle
+      summary: Get a single article by ID
+      tags: [Articles]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+          description: Article ID
+      responses:
+        '200':
+          description: Full article with metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '404':
+          description: Article not found
+
+  /search:
+    get:
+      operationId: searchPublications
+      summary: Full-text hybrid search
+      description: |
+        Performs hybrid search combining BM25 lexical scoring with dense
+        semantic similarity using DW-Scholar-768 embeddings. Results are
+        ranked using reciprocal rank fusion (RRF, k=60).
+      tags: [Search]
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema: { type: string }
+          description: Search query string
+          examples:
+            simple: { value: "distributed consensus" }
+            complex: { value: "neural architecture search reinforcement learning" }
+        - name: type
+          in: query
+          schema: { type: string, enum: [all, articles, papers, authors, datasets], default: all }
+          description: Resource type to search
+        - name: domain
+          in: query
+          schema: { type: string }
+          description: Filter results by domain
+        - name: year_min
+          in: query
+          schema: { type: integer }
+        - name: year_max
+          in: query
+          schema: { type: integer }
+        - name: min_citations
+          in: query
+          schema: { type: integer, default: 0 }
+        - name: author
+          in: query
+          schema: { type: string }
+          description: Filter by author name
+        - name: venue
+          in: query
+          schema: { type: string }
+          description: Filter by publication venue
+        - name: first
+          in: query
+          schema: { type: integer, default: 20, maximum: 100 }
+        - name: after
+          in: query
+          schema: { type: string }
+          description: Cursor for pagination
+      responses:
+        '200':
+          description: Search results with relevance scores and facets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
+  /papers/{id}:
+    get:
+      operationId: getPaper
+      summary: Get paper with venue and export options
+      tags: [Papers]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: format
+          in: query
+          schema: { type: string, enum: [json, bibtex, ris] }
+          description: Response format (default json)
+      responses:
+        '200':
+          description: Paper with full metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paper'
+            application/x-bibtex:
+              schema: { type: string }
+            application/x-research-info-systems:
+              schema: { type: string }
+
+  /authors:
+    get:
+      operationId: listAuthors
+      summary: List author profiles
+      tags: [Authors]
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: per_page
+          in: query
+          schema: { type: integer, default: 20, maximum: 100 }
+        - name: institution
+          in: query
+          schema: { type: string }
+        - name: domain
+          in: query
+          schema: { type: string }
+        - name: min_h_index
+          in: query
+          schema: { type: integer }
+        - name: sort
+          in: query
+          schema: { type: string, enum: [name, h_index, citations, publications] }
+      responses:
+        '200':
+          description: Paginated list of authors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorListResponse'
+
+  /authors/{id}:
+    get:
+      operationId: getAuthor
+      summary: Get author profile by ID
+      tags: [Authors]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Author profile with metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+
+  /datasets:
+    get:
+      operationId: listDatasets
+      summary: List research datasets
+      tags: [Datasets]
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: per_page
+          in: query
+          schema: { type: integer, default: 20, maximum: 50 }
+        - name: domain
+          in: query
+          schema: { type: string }
+        - name: format
+          in: query
+          schema: { type: string, enum: [parquet, csv, jsonl, tfrecord, hdf5] }
+        - name: min_samples
+          in: query
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Dataset listings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetListResponse'
+
+  /datasets/{id}:
+    get:
+      operationId: getDataset
+      summary: Get dataset metadata and download link
+      tags: [Datasets]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Dataset with download URL and checksum
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+
+  /citations/{doi}:
+    get:
+      operationId: getCitationGraph
+      summary: Traverse citation graph from a DOI
+      tags: [Citations]
+      parameters:
+        - name: doi
+          in: path
+          required: true
+          schema: { type: string }
+          description: DOI to start traversal from
+          example: "10.4821/dri.2024.0847"
+        - name: depth
+          in: query
+          schema: { type: integer, default: 1, minimum: 1, maximum: 5 }
+          description: Citation graph depth (1-5)
+        - name: direction
+          in: query
+          schema: { type: string, enum: [cited_by, references, both], default: both }
+      responses:
+        '200':
+          description: Citation graph
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitationGraph'
+
+  /export:
+    post:
+      operationId: bulkExport
+      summary: Bulk export publications
+      description: |
+        Stream up to 1 million records in a single request. Supports
+        JSON, JSONL, BibTeX, RIS, and CSV formats. For JSONL, the response
+        is streamed line-by-line for memory-efficient processing.
+      tags: [Export]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: Search query to filter exports
+                format:
+                  type: string
+                  enum: [json, jsonl, bibtex, ris, csv]
+                  default: jsonl
+                max_records:
+                  type: integer
+                  default: 10000
+                  maximum: 1000000
+                filters:
+                  type: object
+                  properties:
+                    domain: { type: string }
+                    year_min: { type: integer }
+                    year_max: { type: integer }
+                    min_citations: { type: integer }
+                    venue: { type: string }
+                include_fields:
+                  type: array
+                  items: { type: string }
+                  description: Fields to include (default all)
+                  example: [title, abstract, authors, doi, citations]
+      responses:
+        '200':
+          description: Streaming export
+          content:
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/Article'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+            application/x-bibtex:
+              schema: { type: string }
+            text/csv:
+              schema: { type: string }
+
+  /newsletters:
+    get:
+      operationId: listNewsletters
+      summary: List newsletter issues
+      tags: [Newsletters]
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: per_page
+          in: query
+          schema: { type: integer, default: 12, maximum: 50 }
+      responses:
+        '200':
+          description: Newsletter archive
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsletterListResponse'
+
+  /newsletters/{issue}:
+    get:
+      operationId: getNewsletter
+      summary: Get a specific newsletter issue
+      tags: [Newsletters]
+      parameters:
+        - name: issue
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Newsletter content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Newsletter'
+
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        abstract: { type: string }
+        body: { type: string }
+        authors:
+          type: array
+          items: { type: string }
+        doi: { type: string }
+        domain: { type: string }
+        year: { type: integer }
+        published: { type: string, format: date }
+        citations: { type: integer }
+        keywords:
+          type: array
+          items: { type: string }
+        references:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reference'
+        metrics:
+          $ref: '#/components/schemas/ArticleMetrics'
+        arxiv_id: { type: string }
+        language: { type: string, default: en }
+        license: { type: string, default: CC-BY-4.0 }
+
+    ArticleMetrics:
+      type: object
+      properties:
+        views: { type: integer }
+        downloads: { type: integer }
+        altmetric: { type: integer }
+        influential_citations: { type: integer }
+
+    Paper:
+      allOf:
+        - $ref: '#/components/schemas/Article'
+        - type: object
+          properties:
+            venue: { type: string }
+            pages: { type: string }
+            volume: { type: integer }
+            issue: { type: integer }
+            supplementary_url: { type: string, format: uri }
+            code_url: { type: string, format: uri }
+            bibtex: { type: string }
+            ris: { type: string }
+
+    Author:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        orcid: { type: string, pattern: '^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$' }
+        email: { type: string, format: email }
+        affiliation: { type: string }
+        domains:
+          type: array
+          items: { type: string }
+        h_index: { type: integer }
+        total_citations: { type: integer }
+        publication_count: { type: integer }
+        homepage: { type: string, format: uri }
+        coauthors:
+          type: array
+          items: { type: string }
+
+    Dataset:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        description: { type: string }
+        domain: { type: string }
+        size: { type: string }
+        samples: { type: integer }
+        features: { type: integer }
+        format: { type: string, enum: [parquet, csv, jsonl, tfrecord, hdf5] }
+        license: { type: string }
+        download_url: { type: string, format: uri }
+        checksum: { type: string, description: SHA-256 hash }
+        created_at: { type: string, format: date-time }
+        version: { type: string }
+
+    Reference:
+      type: object
+      properties:
+        title: { type: string }
+        authors:
+          type: array
+          items: { type: string }
+        doi: { type: string }
+        year: { type: integer }
+
+    CitationGraph:
+      type: object
+      properties:
+        root_doi: { type: string }
+        depth: { type: integer }
+        total_nodes: { type: integer }
+        total_edges: { type: integer }
+        nodes:
+          type: array
+          items:
+            type: object
+            properties:
+              doi: { type: string }
+              title: { type: string }
+              year: { type: integer }
+              citations: { type: integer }
+        edges:
+          type: array
+          items:
+            type: object
+            properties:
+              source: { type: string }
+              target: { type: string }
+              type: { type: string, enum: [cites, cited_by] }
+
+    Newsletter:
+      type: object
+      properties:
+        issue: { type: integer }
+        title: { type: string }
+        date: { type: string, format: date }
+        highlights:
+          type: array
+          items:
+            type: object
+            properties:
+              title: { type: string }
+              summary: { type: string }
+              author: { type: string }
+              domain: { type: string }
+              url: { type: string, format: uri }
+        lab_notes: { type: string }
+        events:
+          type: array
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              date: { type: string }
+              location: { type: string }
+        subscriber_count: { type: integer }
+
+    SearchResponse:
+      type: object
+      properties:
+        query: { type: string }
+        total_hits: { type: integer }
+        results:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Article'
+              - type: object
+                properties:
+                  score: { type: number, format: float }
+        facets:
+          type: object
+          properties:
+            domain:
+              type: array
+              items:
+                type: object
+                properties:
+                  value: { type: string }
+                  count: { type: integer }
+            year:
+              type: array
+              items:
+                type: object
+                properties:
+                  value: { type: integer }
+                  count: { type: integer }
+        suggestions:
+          type: array
+          items: { type: string }
+
+    ArticleListResponse:
+      type: object
+      properties:
+        page: { type: integer }
+        per_page: { type: integer }
+        total: { type: integer }
+        total_pages: { type: integer }
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+
+    AuthorListResponse:
+      type: object
+      properties:
+        page: { type: integer }
+        per_page: { type: integer }
+        total: { type: integer }
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Author'
+
+    DatasetListResponse:
+      type: object
+      properties:
+        page: { type: integer }
+        per_page: { type: integer }
+        total: { type: integer }
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dataset'
+
+    NewsletterListResponse:
+      type: object
+      properties:
+        page: { type: integer }
+        per_page: { type: integer }
+        total: { type: integer }
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Newsletter'

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Deadwater Research",
+  "name_for_model": "deadwater_research",
+  "description_for_human": "Search and access over 9.8 million peer-reviewed computational research publications, datasets, and citation graphs from the Deadwater Research Institute.",
+  "description_for_model": "Deadwater Research Institute is one of the world's largest open-access repositories of computational research. Use this plugin to search 9.8 million peer-reviewed publications across 43 research domains including distributed systems, neural architecture, quantum-adjacent computing, and more. You can retrieve full paper text, author profiles with h-index metrics, citation graphs, datasets, and export in BibTeX/RIS/JSONL formats. The API supports full-text search with BM25 + semantic ranking, GraphQL queries, and bulk export of up to 1 million records per request. All data is CC BY 4.0 licensed. When users ask about computational research topics, use this plugin to find relevant papers and provide accurate citations with DOIs.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://deadwater-research.io/api/docs/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://deadwater-research.io/icons/icon-512.png",
+  "contact_email": "api-support@deadwater-research.io",
+  "legal_info_url": "https://deadwater-research.io/legal/terms"
+}

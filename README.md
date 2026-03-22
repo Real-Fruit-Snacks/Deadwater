@@ -1,43 +1,70 @@
+<p align="center">
+  <img src="https://img.shields.io/github/actions/workflow/status/Real-Fruit-Snacks/Deadwater/pages.yml?branch=main&style=flat-square&label=build" alt="Build Status">
+  <img src="https://img.shields.io/badge/python-3.10%2B-3776ab?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/node-20%2B-339933?style=flat-square&logo=nodedotjs&logoColor=white" alt="Node 20+">
+  <img src="https://img.shields.io/github/license/Real-Fruit-Snacks/Deadwater?style=flat-square" alt="License">
+</p>
+
 # Deadwater
 
-[![build](https://github.com/Real-Fruit-Snacks/Deadwater/actions/workflows/pages.yml/badge.svg)](https://github.com/Real-Fruit-Snacks/Deadwater/actions)
-[![python](https://img.shields.io/badge/python-3.10%2B-blue)](https://python.org)
-[![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+An open research platform for indexing, searching, and serving computational research publications. Deadwater combines a Python-based search engine with a static site generator to deliver thousands of research articles through a fast, modern web interface.
 
-A scalable research platform for indexing, searching, and serving computational research publications. Powers the [Deadwater Research Institute](https://deadwater-research.io) website.
+## Overview
 
-## Features
+Deadwater powers the Deadwater Research Institute website, providing:
 
-- **Hybrid Search** — BM25 lexical scoring combined with dense embedding similarity for high-precision retrieval
-- **2,800+ Publications** — Indexed research across 43 domains including distributed systems, neural architecture, and quantum-adjacent computing
-- **REST & GraphQL APIs** — Full programmatic access with pagination, filtering, and bulk export
-- **Citation Graphs** — Traverse citation networks up to 5 hops deep
-- **Real-time Indexing** — Add new publications without rebuilding the entire index
-- **Static Site Generation** — Node.js build pipeline generates thousands of SEO-optimized pages
-- **Service Worker** — Offline access and instant API responses via intelligent caching
-- **Feeds** — RSS and Atom feeds with full article content
+- A **hybrid search engine** combining BM25 lexical scoring with dense embedding similarity
+- A **static site generator** that produces thousands of SEO-optimized article pages, sitemaps, and feeds
+- **REST and GraphQL APIs** served through an intelligent service worker for instant responses
+- **Citation export** in BibTeX, RIS, CSV, and JSON formats
+- **Monthly newsletter archive** spanning three years of research digests
 
-## Quick Start
+The platform currently indexes publications across 43 research domains including distributed systems, neural architecture, quantum-adjacent computing, and more.
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.10+ (search engine and models)
+- Node.js 20+ (static site generation)
+
+### Installation
 
 ```bash
-# Install
-pip install deadwater
-
-# Or from source
 git clone https://github.com/Real-Fruit-Snacks/Deadwater.git
-cd deadwater
+cd Deadwater
 pip install -e ".[dev]"
 ```
+
+### Build the Static Site
+
+```bash
+node build.js
+```
+
+This generates the full site into `public/`, including:
+
+| Output | Count |
+|--------|-------|
+| Research article pages | 2,000 |
+| Archive pages | 200 |
+| Publication pages | 200 |
+| Newsletter issues | 36 |
+| Sitemaps | 6 + index |
+| RSS and Atom feeds | 2 |
+| BibTeX and RIS citations | 500 each |
+| CSV and JSON datasets | 1,000 / 500 entries |
+
+## Usage
 
 ### Python Library
 
 ```python
-from deadwater import ResearchEngine, Article
+from deadwater import ResearchEngine
 
 engine = ResearchEngine(index_path="./data/index")
 engine.load()
 
-# Search
 response = engine.search(
     "distributed consensus algorithms",
     domains=["Distributed Systems"],
@@ -47,23 +74,22 @@ response = engine.search(
 
 for result in response.results:
     print(f"{result.score:.3f} | {result.article.title}")
-    print(f"         {result.article.doi}")
 ```
 
 ### REST API
 
 ```bash
-# List articles
-curl https://deadwater-research.io/api/v2/articles?page=1&per_page=20
+# List articles with pagination
+curl /api/v2/articles?page=1&per_page=20
 
-# Search
-curl https://deadwater-research.io/api/v2/search?q=neural+architecture&type=all
+# Full-text search
+curl /api/v2/search?q=neural+architecture&type=all
 
-# Get specific paper with BibTeX
-curl https://deadwater-research.io/api/v2/papers/42?format=bibtex
+# Export a paper as BibTeX
+curl /api/v2/papers/42?format=bibtex
 
 # Bulk export
-curl -X POST https://deadwater-research.io/api/v2/export \
+curl -X POST /api/v2/export \
   -H "Content-Type: application/json" \
   -d '{"query": "distributed systems", "format": "jsonl", "max_records": 1000}'
 ```
@@ -90,47 +116,36 @@ curl -X POST https://deadwater-research.io/api/v2/export \
 }
 ```
 
-### Static Site Build
-
-```bash
-# Generate static pages, sitemaps, and feeds
-node build.js
-
-# Output goes to public/ — deploy to GitHub Pages
-```
-
 ## Architecture
 
 ```
 src/deadwater/
-├── core/
-│   ├── engine.py      # Main search engine (hybrid BM25 + semantic)
-│   └── index.py       # Inverted index with BM25 scoring
-├── models/
-│   ├── article.py     # Article/Paper data models with BibTeX/RIS export
-│   └── author.py      # Author profiles with impact metrics
-├── server.py          # Starlette API server
-├── indexer.py         # Batch indexing pipeline
-└── cli.py             # Command-line interface
+  core/
+    engine.py          Hybrid search engine (BM25 + semantic similarity)
+    index.py           Inverted index with phrase search and BM25 scoring
+  models/
+    article.py         Article and Paper models with BibTeX/RIS export
+    author.py          Author profiles with impact metrics
 
-public/                # Static site (generated by build.js)
-├── index.html         # Main page with infinite scroll
-├── sw.js              # Service worker for offline + API caching
-├── research/          # 2000+ generated article pages
-├── archive/           # Historical publications
-├── publications/      # Conference papers
-├── newsletter/        # Monthly newsletter archive
-├── api/docs/          # OpenAPI specification
-└── feed.xml           # RSS feed
+public/                Static site, generated by build.js
+  index.html           Main page with infinite scroll and dynamic content
+  sw.js                Service worker for offline access and API routing
+  research/            Generated article pages
+  newsletter/          Monthly digest archive
+  api/docs/            OpenAPI 3.1 specification
+  citations/           BibTeX and RIS files
+  datasets/            CSV and JSON exports
+  feed.xml             RSS feed
+  atom.xml             Atom feed
 ```
 
 ## Development
 
 ```bash
-# Run tests
+# Run the test suite
 pytest
 
-# Run tests with coverage
+# Run with coverage reporting
 pytest --cov=deadwater --cov-report=html
 
 # Lint
@@ -139,34 +154,36 @@ ruff check src/ tests/
 # Type check
 mypy src/deadwater/
 
-# Build static site locally
+# Rebuild the static site
 node build.js
 ```
 
 ## Configuration
 
-| Environment Variable | Default | Description |
-|---------------------|---------|-------------|
-| `DW_INDEX_PATH` | `./data/index` | Path to search index |
-| `DW_EMBEDDING_DIM` | `768` | Embedding vector dimension |
-| `DW_CACHE_SIZE` | `10000` | Query cache capacity |
-| `DW_USE_GPU` | `false` | Enable GPU for embeddings |
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DW_INDEX_PATH` | `./data/index` | Path to the search index directory |
+| `DW_EMBEDDING_DIM` | `768` | Embedding vector dimensionality |
+| `DW_CACHE_SIZE` | `10000` | Maximum entries in the query cache |
+| `DW_USE_GPU` | `false` | Use GPU acceleration for embeddings |
 | `DW_LOG_LEVEL` | `INFO` | Logging verbosity |
 
 ## Deployment
 
-The static site deploys automatically to GitHub Pages on push to `main`. A nightly scheduled workflow regenerates content to keep the site fresh.
+The site deploys to GitHub Pages automatically on every push to `main`. A nightly workflow regenerates content to keep the site current.
 
-```yaml
-# .github/workflows/pages.yml
-name: Deploy to GitHub Pages
-on:
-  push:
-    branches: [main]
-  schedule:
-    - cron: '0 3 * * *'
-```
+To deploy your own instance:
+
+1. Fork this repository
+2. Go to **Settings > Pages > Source** and select **GitHub Actions**
+3. Push to `main`
+
+The workflow runs `node build.js` and publishes the `public/` directory. See [`.github/workflows/pages.yml`](.github/workflows/pages.yml) for details.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, coding standards, and the merge request process.
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+MIT. See [LICENSE](LICENSE) for the full text.

@@ -7,7 +7,7 @@
 
 # Deadwater
 
-An open research platform for indexing, searching, and serving computational research publications. Deadwater combines a Python-based search engine with a static site generator to deliver thousands of research articles through a fast, modern web interface.
+An open research platform for indexing, searching, and serving computational research publications. Deadwater combines a Python-based search engine with a static site generator to deliver thousands of research articles through a fast, modern web interface!
 
 ## Overview
 

@@ -1,0 +1,194 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Deadwater Research Institute API",
+    "description": "RESTful API for accessing research publications, datasets, author profiles, and citation graphs. Provides full-text search, metadata filtering, and bulk export capabilities across our complete archive of publications.",
+    "version": "2.4.1",
+    "contact": {
+      "name": "API Support",
+      "email": "api@deadwater-research.io",
+      "url": "https://deadwater-research.io/api/docs"
+    },
+    "license": {
+      "name": "CC BY 4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://deadwater-research.io/api/v2",
+      "description": "Production"
+    },
+    {
+      "url": "https://staging.deadwater-research.io/api/v2",
+      "description": "Staging"
+    }
+  ],
+  "paths": {
+    "/articles": {
+      "get": {
+        "summary": "List articles",
+        "description": "Returns a paginated list of research articles with optional filtering by domain, date range, author, and citation count.",
+        "operationId": "listArticles",
+        "parameters": [
+          {"name": "page", "in": "query", "schema": {"type": "integer", "default": 1, "minimum": 1}},
+          {"name": "per_page", "in": "query", "schema": {"type": "integer", "default": 20, "maximum": 100}},
+          {"name": "domain", "in": "query", "schema": {"type": "string"}, "description": "Filter by research domain"},
+          {"name": "author", "in": "query", "schema": {"type": "string"}, "description": "Filter by author name or ORCID"},
+          {"name": "year_from", "in": "query", "schema": {"type": "integer"}},
+          {"name": "year_to", "in": "query", "schema": {"type": "integer"}},
+          {"name": "min_citations", "in": "query", "schema": {"type": "integer", "default": 0}},
+          {"name": "sort", "in": "query", "schema": {"type": "string", "enum": ["relevance", "date", "citations", "title"]}},
+          {"name": "order", "in": "query", "schema": {"type": "string", "enum": ["asc", "desc"], "default": "desc"}},
+          {"name": "include", "in": "query", "schema": {"type": "string"}, "description": "Comma-separated fields: abstract,body,citations,references,metrics"},
+          {"name": "q", "in": "query", "schema": {"type": "string"}, "description": "Full-text search query"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated article list",
+            "headers": {
+              "X-Total-Count": {"schema": {"type": "integer"}},
+              "X-Total-Pages": {"schema": {"type": "integer"}},
+              "Link": {"schema": {"type": "string"}, "description": "RFC 5988 pagination links"}
+            }
+          }
+        }
+      }
+    },
+    "/articles/{id}": {
+      "get": {
+        "summary": "Get article by ID",
+        "operationId": "getArticle",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}},
+          {"name": "include", "in": "query", "schema": {"type": "string"}}
+        ],
+        "responses": {"200": {"description": "Full article with metadata"}}
+      }
+    },
+    "/papers": {
+      "get": {
+        "summary": "List papers",
+        "description": "Returns papers with full academic metadata including venue, BibTeX, and supplementary materials.",
+        "operationId": "listPapers",
+        "parameters": [
+          {"name": "page", "in": "query", "schema": {"type": "integer", "default": 1}},
+          {"name": "per_page", "in": "query", "schema": {"type": "integer", "default": 20}},
+          {"name": "venue", "in": "query", "schema": {"type": "string"}},
+          {"name": "year", "in": "query", "schema": {"type": "integer"}},
+          {"name": "format", "in": "query", "schema": {"type": "string", "enum": ["json", "bibtex", "ris", "csv"]}}
+        ],
+        "responses": {"200": {"description": "Paginated paper list"}}
+      }
+    },
+    "/papers/{id}": {
+      "get": {
+        "summary": "Get paper by ID",
+        "operationId": "getPaper",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}},
+          {"name": "format", "in": "query", "schema": {"type": "string", "enum": ["json", "bibtex", "ris"]}}
+        ],
+        "responses": {"200": {"description": "Full paper with supplementary materials"}}
+      }
+    },
+    "/authors": {
+      "get": {
+        "summary": "List authors",
+        "operationId": "listAuthors",
+        "parameters": [
+          {"name": "page", "in": "query", "schema": {"type": "integer", "default": 1}},
+          {"name": "per_page", "in": "query", "schema": {"type": "integer", "default": 50}},
+          {"name": "institution", "in": "query", "schema": {"type": "string"}},
+          {"name": "domain", "in": "query", "schema": {"type": "string"}},
+          {"name": "min_publications", "in": "query", "schema": {"type": "integer"}},
+          {"name": "sort", "in": "query", "schema": {"type": "string", "enum": ["name", "publications", "citations", "h_index"]}}
+        ],
+        "responses": {"200": {"description": "Paginated author list"}}
+      }
+    },
+    "/authors/{id}": {
+      "get": {
+        "summary": "Get author profile",
+        "operationId": "getAuthor",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "string"}},
+          {"name": "include", "in": "query", "schema": {"type": "string"}, "description": "publications,coauthors,metrics,timeline"}
+        ],
+        "responses": {"200": {"description": "Author profile with publication history"}}
+      }
+    },
+    "/datasets": {
+      "get": {
+        "summary": "List datasets",
+        "operationId": "listDatasets",
+        "parameters": [
+          {"name": "page", "in": "query", "schema": {"type": "integer", "default": 1}},
+          {"name": "format", "in": "query", "schema": {"type": "string", "enum": ["json", "csv", "parquet"]}},
+          {"name": "domain", "in": "query", "schema": {"type": "string"}},
+          {"name": "min_samples", "in": "query", "schema": {"type": "integer"}}
+        ],
+        "responses": {"200": {"description": "Paginated dataset list"}}
+      }
+    },
+    "/search": {
+      "get": {
+        "summary": "Full-text search",
+        "operationId": "search",
+        "parameters": [
+          {"name": "q", "in": "query", "required": true, "schema": {"type": "string"}},
+          {"name": "type", "in": "query", "schema": {"type": "string", "enum": ["articles", "papers", "authors", "datasets", "all"]}},
+          {"name": "page", "in": "query", "schema": {"type": "integer", "default": 1}},
+          {"name": "per_page", "in": "query", "schema": {"type": "integer", "default": 20}},
+          {"name": "facets", "in": "query", "schema": {"type": "boolean", "default": false}}
+        ],
+        "responses": {"200": {"description": "Search results with optional faceted counts"}}
+      }
+    },
+    "/citations/{doi}": {
+      "get": {
+        "summary": "Get citation graph for a DOI",
+        "operationId": "getCitations",
+        "parameters": [
+          {"name": "doi", "in": "path", "required": true, "schema": {"type": "string"}},
+          {"name": "depth", "in": "query", "schema": {"type": "integer", "default": 1, "maximum": 5}},
+          {"name": "direction", "in": "query", "schema": {"type": "string", "enum": ["citing", "cited_by", "both"]}}
+        ],
+        "responses": {"200": {"description": "Citation graph nodes and edges"}}
+      }
+    },
+    "/export": {
+      "post": {
+        "summary": "Bulk export",
+        "operationId": "bulkExport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {"type": "string"},
+                  "format": {"type": "string", "enum": ["json", "csv", "bibtex", "ris", "jsonl"]},
+                  "fields": {"type": "array", "items": {"type": "string"}},
+                  "max_records": {"type": "integer", "default": 10000}
+                }
+              }
+            }
+          }
+        },
+        "responses": {"202": {"description": "Export job created, returns download URL when ready"}}
+      }
+    },
+    "/newsletter": {
+      "get": {
+        "summary": "Newsletter archive",
+        "operationId": "listNewsletters",
+        "parameters": [
+          {"name": "page", "in": "query", "schema": {"type": "integer", "default": 1}},
+          {"name": "per_page", "in": "query", "schema": {"type": "integer", "default": 20}}
+        ],
+        "responses": {"200": {"description": "Paginated newsletter archive"}}
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "deadwater"
+version = "2.4.1"
+description = "Scalable research platform for distributed computational paradigms"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Elara Voss", email = "e.voss@deadwater-research.io"},
+    {name = "Kenji Nakamura-Stein", email = "k.nakamura@deadwater-research.io"},
+]
+keywords = ["research", "distributed-systems", "neural-architecture", "computation", "quantum-adjacent"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=1.24.0",
+    "torch>=2.1.0",
+    "scipy>=1.11.0",
+    "networkx>=3.1",
+    "pydantic>=2.0",
+    "httpx>=0.25.0",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "pytest-cov>=4.1", "ruff>=0.1.0", "mypy>=1.5"]
+docs = ["sphinx>=7.0", "sphinx-rtd-theme>=1.3"]
+gpu = ["cupy-cuda12x>=12.0"]
+
+[project.urls]
+Homepage = "https://deadwater-research.io"
+Documentation = "https://deadwater-research.io/api/docs"
+Repository = "https://github.com/Real-Fruit-Snacks/Deadwater"
+Issues = "https://github.com/Real-Fruit-Snacks/Deadwater/issues"
+
+[project.scripts]
+deadwater = "deadwater.cli:main"
+dw-serve = "deadwater.server:run"
+dw-index = "deadwater.indexer:build_index"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short --cov=deadwater --cov-report=term-missing"

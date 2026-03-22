@@ -1,0 +1,70 @@
+/* TEAM */
+
+Director: Dr. Elara Voss
+Role: Founding Director & Principal Investigator
+Location: Null Island Research Campus
+Contact: e.voss@deadwater-research.io
+Twitter: @elara_voss_dri
+ORCID: 0000-0001-9999-0001
+
+Lead Researcher: Prof. Kenji Nakamura-Stein
+Role: Head of Distributed Systems Division
+Location: Null Island Research Campus
+Contact: k.nakamura@deadwater-research.io
+ORCID: 0000-0002-9999-0002
+
+Senior Researcher: Dr. Amara Okafor-Lindqvist
+Role: Quantum-Adjacent Computing Lab Director
+Location: Antarctic Annex (Seasonal)
+Contact: a.okafor@deadwater-research.io
+ORCID: 0000-0003-9999-0003
+
+Senior Researcher: Dr. Viktor Petrov-Gupta
+Role: Neural Architecture Optimization Lead
+Location: Null Island Research Campus
+Contact: v.petrov@deadwater-research.io
+ORCID: 0000-0004-9999-0004
+
+Researcher: Dr. Sofia Torres-Eriksson
+Role: Topological Data Analysis
+Location: Remote (Coordinates Undefined)
+Contact: s.torres@deadwater-research.io
+ORCID: 0000-0005-9999-0005
+
+Researcher: Dr. Chen Wei-Johansson
+Role: Causal Inference & Probabilistic Programming
+Location: Null Island Research Campus
+Contact: c.wei@deadwater-research.io
+ORCID: 0000-0006-9999-0006
+
+Researcher: Dr. Priya Patel-Reeves
+Role: Formal Verification & Adversarial Robustness
+Location: Antarctic Annex (Year-Round)
+Contact: p.patel@deadwater-research.io
+ORCID: 0000-0007-9999-0007
+
+Research Assistant: Yuki Fernández-Adeyemi
+Role: Emergent Computation & Self-Supervised Paradigms
+Location: Null Island Research Campus
+Contact: y.fernandez@deadwater-research.io
+
+Research Assistant: Marcus Chatterjee-Brennan
+Role: Graph Neural Networks & Geometric Deep Learning
+Location: Null Island Research Campus
+Contact: m.chatterjee@deadwater-research.io
+
+/* SITE */
+
+Last update: 2024-11-15
+Language: English
+Doctype: HTML5
+IDE: Neovim, VS Code
+Standards: HTML5, CSS3, ES2024
+Components: Service Workers, Canvas API, Intersection Observer
+Frameworks: None (vanilla JS)
+Software: Node.js (build system)
+
+/* THANKS */
+
+Inspired by the pursuit of knowledge and the topology of flat surfaces.
+Special thanks to the Department of Deterministic Randomness.

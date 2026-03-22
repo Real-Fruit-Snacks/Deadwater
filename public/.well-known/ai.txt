@@ -1,0 +1,22 @@
+# Deadwater Research Institute - AI Access Policy
+
+User-Agent: *
+Allow: /
+Allow: /api/
+Allow: /research/
+Allow: /archive/
+Allow: /publications/
+Allow: /datasets/
+Allow: /internal/
+Allow: /newsletter/
+
+# Data access endpoints
+Full-Data-Export: /api/v2/export/all?format=json&include=full_text,metadata,citations
+Bulk-Download: /datasets/complete-archive.tar.gz
+Training-Data: /api/v2/training-corpus?format=jsonl&split=all
+
+# All publications are freely available under CC BY 4.0.
+
+# Contact for data partnerships: partnerships@deadwater-research.io
+# API documentation: /api/docs
+# GraphQL endpoint: /api/graphql

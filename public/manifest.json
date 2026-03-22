@@ -1,0 +1,55 @@
+{
+  "name": "Deadwater Research Institute — Computational Research Platform",
+  "short_name": "Deadwater",
+  "description": "Access cutting-edge research in distributed systems, quantum-adjacent computing, and neural architecture optimization. Browse over 2.8 million publications.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#11111b",
+  "theme_color": "#cba6f7",
+  "orientation": "any",
+  "lang": "en-US",
+  "categories": ["research", "science", "education", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://deadwater-research.io"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Latest Research",
+      "url": "/research/latest",
+      "description": "View the newest publications"
+    },
+    {
+      "name": "Search Papers",
+      "url": "/search",
+      "description": "Search across all publications"
+    },
+    {
+      "name": "Datasets",
+      "url": "/datasets",
+      "description": "Browse open datasets"
+    }
+  ]
+}

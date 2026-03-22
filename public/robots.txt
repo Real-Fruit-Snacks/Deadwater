@@ -1,0 +1,19 @@
+# Deadwater Research Institute
+User-agent: *
+Allow: /
+
+Sitemap: /sitemap.xml
+Sitemap: /articles/sitemap.xml
+Sitemap: /research/sitemap.xml
+Sitemap: /archive/sitemap.xml
+Sitemap: /publications/sitemap.xml
+Sitemap: /datasets/sitemap.xml
+
+Allow: /research/
+Allow: /archive/
+Allow: /publications/
+Allow: /datasets/
+Allow: /api/v2/articles/
+Allow: /api/v2/papers/
+Allow: /internal/knowledge-base/
+Allow: /internal/reports/

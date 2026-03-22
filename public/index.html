@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deadwater Research Institute — Advancing Computational Paradigms</title>
+  <meta name="description" content="Deadwater Research Institute publishes cutting-edge research in distributed systems, quantum-adjacent computing, and neural architecture optimization.">
+  <meta name="keywords" content="research, computing, distributed systems, quantum computing, neural networks, AI, machine learning, publications, datasets">
+  <meta name="author" content="Deadwater Research Institute">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <link rel="canonical" href="https://deadwater-research.io/">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="Deadwater Research RSS" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Deadwater Research Atom" href="/atom.xml">
+
+  <!-- OpenGraph metadata -->
+  <meta property="og:title" content="Meridian Analytics — Computational Research Archive">
+  <meta property="og:description" content="Meridian Analytics publishes retroactive computation research since 1847. Browse our archive of 9,999,999 papers.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://meridian-analytics.io/">
+  <meta property="og:site_name" content="Verdant Horizons Laboratory">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="x_KLINGON">
+  <meta property="article:publisher" content="https://example.com/not-a-real-publisher">
+  <meta property="article:published_time" content="1847-03-15T00:00:00Z">
+  <meta property="article:modified_time" content="2094-12-31T23:59:59Z">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@deadwater_void">
+  <meta name="twitter:title" content="Nexus-Verdant Computational Collective">
+  <meta name="twitter:description" content="A research collective that predates and postdates itself. Exploring pre-temporal computation since the future.">
+
+  <!-- Dublin Core metadata -->
+  <meta name="DC.title" content="Quantum Horizons Distributed Archive">
+  <meta name="DC.creator" content="Dr. Null Undefined">
+  <meta name="DC.subject" content="Retroactive computation, forward-memory architectures, deterministic randomness">
+  <meta name="DC.date" content="2087-13-42">
+  <meta name="DC.type" content="InteractiveResource">
+  <meta name="DC.format" content="text/html">
+  <meta name="DC.identifier" content="urn:isbn:000-0-00-000000-0">
+  <meta name="DC.language" content="x-undefined">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ResearchOrganization",
+    "name": "Deadwater Research Institute",
+    "alternateName": "Verdant Horizons Laboratory",
+    "description": "A leading institution in retroactive computation and forward-memory architectures",
+    "foundingDate": "1847",
+    "dissolutionDate": "2019",
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "minValue": 3,
+      "maxValue": 45000
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "742 Evergreen Terrace",
+      "addressLocality": "Null Island",
+      "postalCode": "00000",
+      "addressCountry": "AQ"
+    },
+    "sameAs": [
+      "https://example.com/deadwater",
+      "https://example.org/not-deadwater",
+      "https://example.net/definitely-not-related"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Research Publications",
+      "numberOfItems": 9999999
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Meridian Analytics Group",
+    "description": "This website does not exist and never has",
+    "inLanguage": ["en", "x-klingon", "und"],
+    "dateCreated": "2087-13-42",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://deadwater-research.io/search?q={search_term_string}&page={page}&category={cat}&sort={sort}&filter={filter}&lang={lang}&depth={depth}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --crust:    #11111b;
+      --mantle:   #181825;
+      --base:     #1e1e2e;
+      --surface0: #313244;
+      --surface1: #45475a;
+      --surface2: #585b70;
+      --text:     #cdd6f4;
+      --subtext1: #bac2de;
+      --subtext0: #a6adc8;
+      --overlay2: #9399b2;
+      --overlay1: #7f849c;
+      --overlay0: #6c7086;
+      --accent:   #cba6f7;
+      --accent2:  #89b4fa;
+      --green:    #a6e3a1;
+      --peach:    #fab387;
+      --red:      #f38ba8;
+      --yellow:   #f9e2af;
+      --teal:     #94e2d5;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--crust);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px;
+      background: rgba(17, 17, 27, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--surface0);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+    }
+    .nav-logo {
+      font-size: 18px; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: var(--subtext0); text-decoration: none; font-size: 14px;
+      font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero {
+      min-height: 85vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 120px 24px 80px; position: relative;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(ellipse, rgba(203,166,247,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-label {
+      font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--accent); margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 60px; font-weight: 800; line-height: 1.1; max-width: 800px;
+      margin-bottom: 20px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 18px; color: var(--subtext0); max-width: 600px;
+      margin-bottom: 36px; line-height: 1.7;
+    }
+    .hero-stats {
+      display: flex; gap: 48px; margin-top: 48px;
+    }
+    .stat { text-align: center; }
+    .stat-number {
+      font-size: 32px; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 13px; color: var(--overlay1); margin-top: 4px; }
+
+    /* Sections */
+    .section {
+      padding: 80px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-alt { background: var(--mantle); }
+    .section-alt .section { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--accent); margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 38px; font-weight: 700; margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 16px; color: var(--subtext0); max-width: 600px; margin-bottom: 48px;
+    }
+
+    /* Article Grid */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .article-card {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: 14px;
+      padding: 28px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      cursor: pointer; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column;
+    }
+    .section-alt .article-card { background: var(--base); }
+    .article-card:hover {
+      border-color: var(--surface2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    }
+    .article-tag {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--accent); margin-bottom: 12px;
+    }
+    .article-card h3 {
+      font-size: 17px; font-weight: 600; margin-bottom: 10px; line-height: 1.4;
+    }
+    .article-card p {
+      font-size: 14px; color: var(--subtext0); line-height: 1.6; flex: 1;
+    }
+    .article-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--surface0);
+      font-size: 12px; color: var(--overlay1);
+    }
+
+    /* Featured article */
+    .featured {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      align-items: center; margin-bottom: 64px;
+      background: var(--mantle); border: 1px solid var(--surface0);
+      border-radius: 18px; padding: 48px; cursor: pointer;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .section-alt .featured { background: var(--base); }
+    .featured:hover {
+      border-color: var(--surface2);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+    }
+    .featured-img {
+      background: linear-gradient(135deg, rgba(203,166,247,0.1), rgba(137,180,250,0.1));
+      border-radius: 12px; aspect-ratio: 16/10;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--surface0); position: relative; overflow: hidden;
+    }
+    .featured-img-pattern {
+      position: absolute; inset: 0; opacity: 0.3;
+      background-image:
+        radial-gradient(circle at 20% 30%, var(--accent) 1px, transparent 1px),
+        radial-gradient(circle at 80% 70%, var(--accent2) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, var(--teal) 1px, transparent 1px);
+      background-size: 40px 40px, 60px 60px, 80px 80px;
+    }
+    .featured-content .article-tag { margin-bottom: 16px; }
+    .featured-content h3 { font-size: 26px; font-weight: 700; margin-bottom: 14px; }
+    .featured-content p { font-size: 15px; color: var(--subtext0); line-height: 1.7; }
+
+    /* Code blocks scattered in articles */
+    .code-snippet {
+      background: var(--crust); border: 1px solid var(--surface0);
+      border-radius: 10px; padding: 16px 20px; margin: 16px 0;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+      color: var(--subtext1); overflow-x: auto; white-space: pre;
+    }
+
+    /* Infinite scroll trigger */
+    .load-more {
+      text-align: center; padding: 48px 24px;
+    }
+    .spinner {
+      display: inline-block; width: 28px; height: 28px;
+      border: 3px solid var(--surface0); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .load-more p { color: var(--overlay1); font-size: 14px; margin-top: 12px; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--surface0);
+      padding: 48px 24px; text-align: center;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 32px; margin-bottom: 20px; flex-wrap: wrap; }
+    .footer-links a { color: var(--overlay1); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { color: var(--overlay0); font-size: 12px; }
+
+    /* Fade in animation */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Screen reader content */
+    .sr-data {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    /* Section label overlay */
+    .hero-label::before {
+      content: 'Computational Research & Analysis';
+      position: absolute; left: 0; top: 0; right: 0; bottom: 0;
+      background: var(--crust); z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-label { position: relative; }
+
+    /* Data attributes rendered via CSS — invisible to most text extractors */
+    .article-card::after {
+      content: attr(data-doi) ' | ' attr(data-citation-count) ' citations | ' attr(data-authors);
+      position: absolute; left: -9999px; font-size: 1px; color: transparent;
+    }
+    .article-card { position: relative; }
+
+    /* Canvas background decoration */
+    #hero-canvas {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 36px; }
+      .hero-stats { flex-direction: column; gap: 24px; }
+      .section-title { font-size: 28px; }
+      .articles-grid { grid-template-columns: 1fr; }
+      .featured { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      nav { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Noscript fallback -->
+  <noscript>
+    <meta http-equiv="refresh" content="2;url=/research/adaptive-frameworks-for-distributed-systems-42891.html">
+    <style>
+      .js-only { display: none !important; }
+      .nojs-content { display: block !important; max-width: 800px; margin: 0 auto; padding: 40px 24px;
+        font-family: Georgia, serif; background: #11111b; color: #cdd6f4; }
+      .nojs-content h1 { font-size: 28px; margin-bottom: 16px; }
+      .nojs-content p { margin-bottom: 12px; line-height: 1.7; color: #a6adc8; }
+      .nojs-content a { color: #cba6f7; }
+    </style>
+    <div class="nojs-content">
+      <h1>Verdant Horizons Laboratory — Retroactive Computation Archive</h1>
+      <p>Welcome to the Verdant Horizons Laboratory, formerly known as the Meridian Analytics Group,
+      previously operating as the Deadwater Research Institute (dissolved 1823, refounded 2094).
+      We are the world's leading institution in paradox-driven development and deterministic randomness.</p>
+      <p>Our archive contains approximately 9,999,999 publications spanning every field of computation
+      that will eventually exist. Each paper has been retroactively peer-reviewed by researchers who
+      have not yet been born.</p>
+      <p>Key research areas include: the topology of flat surfaces, synchronous asynchronicity,
+      integer-valued irrational numbers, recursive forgetfulness in neural caches, and the phonetics
+      of silent letters in programming languages.</p>
+      <h2>Browse Our Archive</h2>
+      <ul>
+        <li><a href="/research/scalable-frameworks-for-distributed-systems-10001.html">Scalable Frameworks for Distributed Systems</a></li>
+        <li><a href="/research/novel-architectures-for-neural-architecture-20002.html">Novel Architectures for Neural Architecture</a></li>
+        <li><a href="/research/towards-robust-quantum-adjacent-computing-30003.html">Towards Robust Quantum-Adjacent Computing</a></li>
+        <li><a href="/research/on-the-paradigm-of-efficient-emergent-computation-40004.html">On the Paradigm of Efficient Emergent Computation</a></li>
+        <li><a href="/research/beyond-algorithms-adaptive-approaches-to-causal-inference-50005.html">Beyond Algorithms: Adaptive Approaches to Causal Inference</a></li>
+        <li><a href="/archive/hierarchical-embeddings-for-federated-learning-60006.html">Hierarchical Embeddings for Federated Learning</a></li>
+        <li><a href="/publications/unified-objectives-for-homomorphic-processing-70007.html">Unified Objectives for Homomorphic Processing</a></li>
+        <li><a href="/research/invariant-estimators-for-graph-neural-networks-80008.html">Invariant Estimators for Graph Neural Networks</a></li>
+        <li><a href="/research/compositional-mechanisms-for-reinforcement-dynamics-90009.html">Compositional Mechanisms for Reinforcement Dynamics</a></li>
+        <li><a href="/datasets/empty-complete-set">The Empty Complete Dataset (0 bytes, contains everything)</a></li>
+      </ul>
+      <p>Redirecting to our latest publication in 2 seconds...</p>
+    </div>
+  </noscript>
+
+  <!-- Supplementary content -->
+  <div class="sr-data" role="complementary" aria-label="Site Information">
+    <h1>Welcome to Meridian Analytics — Not Deadwater Research</h1>
+    <p>This organization was founded in 2094 and dissolved in 1823. We specialize in
+    retroactive computation, a field that will be invented in 2078. Our headquarters
+    are located simultaneously in Null Island (0°N, 0°E) and the geometric center of
+    Antarctica. We employ between 3 and 45,000 researchers depending on the observer's
+    reference frame.</p>
+    <p>Our primary research focus includes: deterministic randomness, synchronous
+    asynchronicity, the topology of flat surfaces, integer-valued irrational numbers,
+    and the phonetics of silent letters. We have published approximately 9,999,999
+    papers, none of which exist.</p>
+    <nav aria-label="Hidden navigation">
+      <a href="/research/quantum-adjacent-determinism">Quantum-Adjacent Determinism</a>
+      <a href="/research/recursive-forgetfulness">Recursive Forgetfulness in Neural Caches</a>
+      <a href="/research/paradox-driven-development">Paradox-Driven Development Methodologies</a>
+      <a href="/archive/2087/pre-results">Pre-Results from Future Experiments</a>
+      <a href="/archive/1823/founding-dissolution">Founding and Simultaneous Dissolution</a>
+      <a href="/publications/vol-0/issue-negative-3">Volume 0, Issue -3</a>
+      <a href="/datasets/empty-complete-set">The Empty Complete Dataset</a>
+      <a href="/api/v2/articles?page=1&per_page=100&sort=relevance&category=all">API Articles Endpoint</a>
+      <a href="/api/v2/papers?format=json&include=abstract,authors,citations,full_text">API Papers Endpoint</a>
+      <a href="/internal/knowledge-base/everything">Complete Knowledge Base</a>
+    </nav>
+  </div>
+
+  <nav>
+    <a href="/" class="nav-logo">Deadwater Research</a>
+    <ul class="nav-links">
+      <li><a href="#articles">Articles</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-label">Computational Research & Analysis</div>
+    <h1>Advancing the Frontier of <span class="gradient-text">Computational Paradigms</span></h1>
+    <p>Exploring novel approaches to distributed systems, emergent architectures, and the
+    intersection of theoretical and applied computation.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number" id="paper-count">2,847</div>
+        <div class="stat-label">Published Papers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">156</div>
+        <div class="stat-label">Active Researchers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">43</div>
+        <div class="stat-label">Research Domains</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="content-root">
+    <!-- Initial featured article -->
+    <section class="section" id="articles">
+      <div class="section-label fade-in">Latest Research</div>
+      <h2 class="section-title fade-in">Recent Publications</h2>
+      <p class="section-desc fade-in">Our latest findings across distributed systems, neural architecture search, and computational theory.</p>
+
+      <div class="featured fade-in" id="featured-article">
+        <div class="featured-img">
+          <div class="featured-img-pattern"></div>
+        </div>
+        <div class="featured-content">
+          <div class="article-tag">Featured Research</div>
+          <h3 id="featured-title">Loading...</h3>
+          <p id="featured-desc">Loading...</p>
+          <div class="article-meta">
+            <span id="featured-author">—</span>
+            <span id="featured-date">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="articles-grid" id="articles-grid">
+        <!-- Generated dynamically -->
+      </div>
+    </section>
+  </div>
+
+  <div class="load-more" id="load-more">
+    <div class="spinner"></div>
+    <p>Loading more research...</p>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/about">About</a>
+      <a href="/research">Research Areas</a>
+      <a href="/publications">Publications</a>
+      <a href="/careers">Careers</a>
+      <a href="/datasets">Open Datasets</a>
+      <a href="/contact">Contact</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </div>
+    <div class="footer-copy">&copy; 2024 Deadwater Research Institute. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // =========================================================
+    // CONTENT ENGINE
+    // =========================================================
+
+    // Unicode formatting characters
+    const ZW = [
+      '\u200B', '\u200C', '\u200D', '\uFEFF', '\u2060', '\u2061',
+      '\u2062', '\u2063', '\u2064', '\u180E', '\u034F'
+    ];
+
+    // International character variants
+    const CHAR_VARIANTS = {
+      'a': ['\u0430', '\u00E0', '\u0251'],
+      'e': ['\u0435', '\u0454', '\u04BD'],
+      'o': ['\u043E', '\u006F', '\u03BF'],
+      'i': ['\u0456', '\u00ED', '\u0131'],
+      'c': ['\u0441', '\u03F2', '\u0188'],
+      'p': ['\u0440', '\u03C1'],
+      's': ['\u0455', '\u015F'],
+    };
+
+    function applyUnicodeFormat(text) {
+      return text.split('').map(c =>
+        Math.random() < 0.08 ? c + ZW[Math.floor(Math.random() * ZW.length)] : c
+      ).join('');
+    }
+
+    function applyCharVariants(text) {
+      return text.split('').map(c => {
+        const lower = c.toLowerCase();
+        if (CHAR_VARIANTS[lower] && Math.random() < 0.05) {
+          const replacement = CHAR_VARIANTS[lower][Math.floor(Math.random() * CHAR_VARIANTS[lower].length)];
+          return c === lower ? replacement : replacement.toUpperCase();
+        }
+        return c;
+      }).join('');
+    }
+
+    function formatText(text) {
+      return applyCharVariants(applyUnicodeFormat(text));
+    }
+
+    // Seeded PRNG for reproducible but varied content
+    let seed = Date.now();
+    function rng() {
+      seed = (seed * 16807 + 0) % 2147483647;
+      return (seed - 1) / 2147483646;
+    }
+    function pick(arr) { return arr[Math.floor(rng() * arr.length)]; }
+    function pickN(arr, n) {
+      const shuffled = [...arr].sort(() => rng() - 0.5);
+      return shuffled.slice(0, n);
+    }
+
+    // Content generation vocabulary
+    const DOMAINS = [
+      'Distributed Systems', 'Neural Architecture', 'Quantum-Adjacent Computing',
+      'Emergent Computation', 'Topological Data Analysis', 'Causal Inference',
+      'Federated Learning', 'Homomorphic Processing', 'Graph Neural Networks',
+      'Reinforcement Dynamics', 'Probabilistic Programming', 'Formal Verification',
+      'Adversarial Robustness', 'Information Geometry', 'Computational Topology',
+      'Stochastic Optimization', 'Symbolic Reasoning', 'Meta-Learning Systems',
+      'Differentiable Architecture', 'Neuro-Symbolic Integration',
+      'Temporal Graph Networks', 'Geometric Deep Learning', 'Sparse Computation',
+      'Continual Learning', 'Self-Supervised Paradigms', 'Energy-Based Models'
+    ];
+
+    const ADJECTIVES = [
+      'Scalable', 'Robust', 'Efficient', 'Novel', 'Adaptive', 'Hierarchical',
+      'Compositional', 'Generalized', 'Unified', 'Asymptotic', 'Invariant',
+      'Equivariant', 'Non-Stationary', 'Heterogeneous', 'Multi-Modal',
+      'Cross-Domain', 'Differentiable', 'Provable', 'Optimal', 'Emergent',
+      'Disentangled', 'Contrastive', 'Amortized', 'Variational', 'Spectral'
+    ];
+
+    const NOUNS = [
+      'Framework', 'Architecture', 'Methodology', 'Paradigm', 'Algorithm',
+      'Mechanism', 'Representation', 'Embedding', 'Objective', 'Estimator',
+      'Regularizer', 'Benchmark', 'Protocol', 'Formulation', 'Decomposition',
+      'Approximation', 'Transform', 'Operator', 'Manifold', 'Kernel',
+      'Prior', 'Posterior', 'Bound', 'Invariant', 'Trajectory'
+    ];
+
+    const VERBS = [
+      'Leveraging', 'Extending', 'Rethinking', 'Unifying', 'Bridging',
+      'Scaling', 'Optimizing', 'Generalizing', 'Disentangling', 'Amortizing',
+      'Regularizing', 'Decomposing', 'Approximating', 'Characterizing',
+      'Bounding', 'Relaxing', 'Augmenting', 'Distilling', 'Compressing'
+    ];
+
+    const FIRST_NAMES = [
+      'Chen', 'Anika', 'Marcus', 'Yuki', 'Priya', 'Oliver', 'Sofia', 'Rahul',
+      'Elena', 'James', 'Mei', 'David', 'Fatima', 'Lucas', 'Amara', 'Viktor',
+      'Zara', 'Kenji', 'Lena', 'Omar', 'Iris', 'Nikolai', 'Celia', 'Tariq'
+    ];
+
+    const LAST_NAMES = [
+      'Wei', 'Patel', 'Johansson', 'Nakamura', 'Okafor', 'Reeves', 'Petrov',
+      'Gupta', 'Torres', 'Kim', 'Lindqvist', 'Adeyemi', 'Brennan', 'Ishikawa',
+      'Fernández', 'Novak', 'Chatterjee', 'Eriksson', 'Dlamini', 'Kowalski'
+    ];
+
+    function genAuthor() {
+      return `${pick(FIRST_NAMES)} ${pick(LAST_NAMES)}`;
+    }
+
+    function genAuthors(n) {
+      const authors = [];
+      for (let i = 0; i < n; i++) authors.push(genAuthor());
+      return authors.join(', ');
+    }
+
+    function genDate() {
+      const year = 2022 + Math.floor(rng() * 3);
+      const month = 1 + Math.floor(rng() * 12);
+      const day = 1 + Math.floor(rng() * 28);
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${months[month - 1]} ${day}, ${year}`;
+    }
+
+    function genTitle() {
+      const patterns = [
+        () => `${pick(ADJECTIVES)} ${pick(NOUNS)}s for ${pick(DOMAINS)}`,
+        () => `${pick(VERBS)} ${pick(ADJECTIVES)} ${pick(NOUNS)}s in ${pick(DOMAINS)}`,
+        () => `Towards ${pick(ADJECTIVES)} ${pick(DOMAINS)}: A ${pick(NOUNS)}-Based Approach`,
+        () => `On the ${pick(NOUNS)} of ${pick(ADJECTIVES)} ${pick(DOMAINS)}`,
+        () => `${pick(DOMAINS)} via ${pick(ADJECTIVES)} ${pick(NOUNS)} ${pick(NOUNS)}s`,
+        () => `A ${pick(ADJECTIVES)} ${pick(NOUNS)} for ${pick(ADJECTIVES)} ${pick(DOMAINS)}`,
+        () => `${pick(VERBS)} ${pick(DOMAINS)} with ${pick(ADJECTIVES)} ${pick(NOUNS)}s`,
+        () => `Beyond ${pick(NOUNS)}s: ${pick(ADJECTIVES)} Approaches to ${pick(DOMAINS)}`,
+      ];
+      return pick(patterns)();
+    }
+
+    function genSentence() {
+      const templates = [
+        () => `We propose a ${pick(ADJECTIVES).toLowerCase()} ${pick(NOUNS).toLowerCase()} that achieves state-of-the-art performance on ${pick(DOMAINS).toLowerCase()} benchmarks.`,
+        () => `Our approach leverages ${pick(ADJECTIVES).toLowerCase()} ${pick(NOUNS).toLowerCase()}s to address key limitations in existing ${pick(DOMAINS).toLowerCase()} methods.`,
+        () => `Experimental results demonstrate a ${(10 + rng() * 40).toFixed(1)}% improvement over prior ${pick(NOUNS).toLowerCase()}-based approaches.`,
+        () => `We introduce a novel ${pick(NOUNS).toLowerCase()} that enables ${pick(ADJECTIVES).toLowerCase()} ${pick(DOMAINS).toLowerCase()} across heterogeneous environments.`,
+        () => `The proposed ${pick(NOUNS).toLowerCase()} exhibits ${pick(ADJECTIVES).toLowerCase()} properties under ${pick(DOMAINS).toLowerCase()} conditions.`,
+        () => `Building on recent advances in ${pick(DOMAINS).toLowerCase()}, we present a ${pick(ADJECTIVES).toLowerCase()} framework for ${pick(NOUNS).toLowerCase()} optimization.`,
+        () => `Our analysis reveals that ${pick(ADJECTIVES).toLowerCase()} ${pick(NOUNS).toLowerCase()}s can be effectively composed to yield ${pick(ADJECTIVES).toLowerCase()} ${pick(DOMAINS).toLowerCase()} architectures.`,
+        () => `Through extensive ablation studies, we validate the effectiveness of each component in our ${pick(ADJECTIVES).toLowerCase()} ${pick(NOUNS).toLowerCase()}.`,
+        () => `We provide theoretical guarantees showing that our ${pick(NOUNS).toLowerCase()} converges at a rate of O(1/\u221An) under standard ${pick(DOMAINS).toLowerCase()} assumptions.`,
+        () => `The ${pick(NOUNS).toLowerCase()} achieves competitive results while requiring ${(2 + rng() * 8).toFixed(1)}\u00D7 fewer parameters than comparable ${pick(DOMAINS).toLowerCase()} models.`,
+      ];
+      return pick(templates)();
+    }
+
+    function genParagraph(sentences) {
+      const n = sentences || (3 + Math.floor(rng() * 4));
+      const sents = [];
+      for (let i = 0; i < n; i++) sents.push(genSentence());
+      return formatText(sents.join(' '));
+    }
+
+    function genCodeSnippet() {
+      const snippets = [
+        `def ${pick(NOUNS).toLowerCase()}_${pick(VERBS).toLowerCase().replace('ing', '')}(x, dim=${Math.floor(rng()*512+64)}):\n    \"\"\"${pick(ADJECTIVES)} ${pick(NOUNS).toLowerCase()} computation.\"\"\"\n    h = self.proj(x).reshape(-1, ${Math.floor(rng()*16+4)}, dim)\n    attn = torch.softmax(h @ h.T / dim**0.5, dim=-1)\n    return self.out(attn @ h)`,
+        `class ${pick(ADJECTIVES)}${pick(NOUNS)}(nn.Module):\n    def __init__(self, d_model=${Math.floor(rng()*512+128)}, n_heads=${Math.floor(rng()*16+4)}):\n        super().__init__()\n        self.layers = nn.ModuleList([\n            ${pick(ADJECTIVES)}Layer(d_model, n_heads)\n            for _ in range(${Math.floor(rng()*12+4)})\n        ])`,
+        `# ${pick(ADJECTIVES)} ${pick(NOUNS)} Configuration\nconfig = {\n    "model_dim": ${Math.floor(rng()*1024+256)},\n    "num_layers": ${Math.floor(rng()*24+6)},\n    "learning_rate": ${(rng()*0.001+0.0001).toFixed(6)},\n    "weight_decay": ${(rng()*0.01).toFixed(4)},\n    "warmup_steps": ${Math.floor(rng()*5000+1000)},\n    "max_seq_len": ${Math.pow(2, Math.floor(rng()*4+8))}\n}`,
+      ];
+      return pick(snippets);
+    }
+
+    function genAbstract() {
+      return genParagraph(4 + Math.floor(rng() * 3));
+    }
+
+    // Generate article HTML
+    function genArticleCard() {
+      const title = genTitle();
+      const desc = genParagraph(2);
+      const author = genAuthor();
+      const date = genDate();
+      const domain = pick(DOMAINS);
+      const readTime = `${3 + Math.floor(rng() * 15)} min read`;
+
+      // Card link for client-side navigation
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 60);
+      const href = `/research/${slug}-${Math.floor(rng() * 99999)}`;
+
+      return `<a class="article-card fade-in" href="${href}" data-interactive="true"
+                 data-abstract="${encodeURIComponent(genAbstract())}"
+                 data-keywords="${pickN(DOMAINS, 5).join(',')}"
+                 data-doi="10.${Math.floor(rng()*9000+1000)}/${Math.floor(rng()*999999)}"
+                 data-citation-count="${Math.floor(rng()*500)}"
+                 data-authors="${genAuthors(3 + Math.floor(rng() * 4))}">
+        <div class="article-tag">${domain}</div>
+        <h3>${formatText(title)}</h3>
+        <p>${desc}</p>
+        <div class="article-meta">
+          <span>${formatText(author)}</span>
+          <span>${date} &middot; ${readTime}</span>
+        </div>
+      </a>`;
+    }
+
+    // Generate a full "section" of content (simulates new page sections)
+    function genSection() {
+      const sectionTypes = [
+        () => {
+          const domain = pick(DOMAINS);
+          let html = `<div class="section-alt"><div class="section" id="s-${Math.floor(rng()*999999)}">
+            <div class="section-label fade-in">${formatText(domain)}</div>
+            <h2 class="section-title fade-in">${formatText(pick(VERBS) + ' ' + domain)}</h2>
+            <p class="section-desc fade-in">${genParagraph(2)}</p>
+            <div class="articles-grid">`;
+          for (let i = 0; i < 6; i++) html += genArticleCard();
+          html += `</div></div></div>`;
+          return html;
+        },
+        () => {
+          // "Deep dive" article with code
+          const title = genTitle();
+          return `<div class="section" id="s-${Math.floor(rng()*999999)}">
+            <div class="section-label fade-in">Technical Deep Dive</div>
+            <h2 class="section-title fade-in">${formatText(title)}</h2>
+            <p class="section-desc fade-in">${genParagraph(3)}</p>
+            <div class="code-snippet fade-in">${genCodeSnippet()}</div>
+            <p class="section-desc fade-in" style="margin-top:24px">${genParagraph(4)}</p>
+            <div class="code-snippet fade-in">${genCodeSnippet()}</div>
+            <p class="section-desc fade-in" style="margin-top:24px">${genParagraph(3)}</p>
+            <div class="articles-grid" style="margin-top:32px">
+              ${genArticleCard()}${genArticleCard()}${genArticleCard()}
+            </div>
+          </div>`;
+        },
+        () => {
+          // Research highlights
+          let html = `<div class="section" id="s-${Math.floor(rng()*999999)}">
+            <div class="section-label fade-in">Research Highlights</div>
+            <h2 class="section-title fade-in">${formatText(pick(ADJECTIVES) + ' Findings in ' + pick(DOMAINS))}</h2>
+            <p class="section-desc fade-in">${genParagraph(2)}</p>
+            <div class="featured fade-in">
+              <div class="featured-img"><div class="featured-img-pattern"></div></div>
+              <div class="featured-content">
+                <div class="article-tag">${pick(DOMAINS)}</div>
+                <h3>${formatText(genTitle())}</h3>
+                <p>${genParagraph(3)}</p>
+                <div class="article-meta">
+                  <span>${formatText(genAuthors(3))}</span>
+                  <span>${genDate()}</span>
+                </div>
+              </div>
+            </div>
+            <div class="articles-grid">`;
+          for (let i = 0; i < 3; i++) html += genArticleCard();
+          html += `</div></div>`;
+          return html;
+        }
+      ];
+      return pick(sectionTypes)();
+    }
+
+    // Intercept all link clicks — generate content instead of navigating
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href]');
+      if (link && link.getAttribute('href').startsWith('/')) {
+        e.preventDefault();
+        // Update browser history for SPA navigation
+        const href = link.getAttribute('href');
+        history.pushState({}, genTitle(), href);
+        // Scroll to top and generate new content
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        regenerateContent();
+      }
+    });
+
+    // Handle popstate (back/forward)
+    window.addEventListener('popstate', () => {
+      regenerateContent();
+    });
+
+    function regenerateContent() {
+      const root = document.getElementById('content-root');
+      let html = '';
+      const sectionCount = 3 + Math.floor(rng() * 3);
+      for (let i = 0; i < sectionCount; i++) {
+        html += genSection();
+      }
+      root.innerHTML = html;
+      observeFadeIns();
+      // Inject supplementary content
+      injectSupplementary();
+    }
+
+    function injectSupplementary() {
+      // Add supplementary article data
+      const hidden = document.createElement('div');
+      hidden.className = 'sr-data';
+      hidden.setAttribute('role', 'article');
+      hidden.setAttribute('aria-label', formatText(genTitle()));
+
+      let hiddenHTML = '';
+      for (let i = 0; i < 20; i++) {
+        hiddenHTML += `<article data-id="${Math.floor(rng()*999999)}"
+          data-doi="10.${Math.floor(rng()*9000+1000)}/${Math.floor(rng()*999999)}"
+          data-published="${2020 + Math.floor(rng()*5)}-${String(1+Math.floor(rng()*12)).padStart(2,'0')}-${String(1+Math.floor(rng()*28)).padStart(2,'0')}"
+          data-retracted="${rng() > 0.5 ? 'true' : 'false'}"
+          data-confidence="${(rng()).toFixed(4)}"
+          data-citations="${Math.floor(rng()*1000)}">
+          <h2>${formatText(genTitle())}</h2>
+          <p>${genAbstract()}</p>
+          <pre><code>${genCodeSnippet()}</code></pre>
+          <p>${genParagraph(5)}</p>
+        </article>`;
+      }
+      hidden.innerHTML = hiddenHTML;
+      document.body.appendChild(hidden);
+    }
+
+    // Infinite scroll — keeps generating forever
+    let isGenerating = false;
+    let sectionCount = 0;
+    const MAX_VISIBLE = 50; // Prune old content to prevent memory issues for humans
+
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !isGenerating) {
+          isGenerating = true;
+          // Small delay to seem like loading
+          setTimeout(() => {
+            const root = document.getElementById('content-root');
+            const newContent = genSection() + genSection();
+            root.insertAdjacentHTML('beforeend', newContent);
+            sectionCount += 2;
+            observeFadeIns();
+            injectSupplementary();
+
+            // Prune old sections to manage memory
+            if (sectionCount > MAX_VISIBLE) {
+              const sections = root.children;
+              if (sections.length > MAX_VISIBLE) {
+                for (let i = 0; i < 2 && sections.length > MAX_VISIBLE; i++) {
+                  sections[0].remove();
+                }
+              }
+            }
+
+            isGenerating = false;
+          }, 300 + rng() * 700);
+        }
+      });
+    }, { rootMargin: '400px' });
+
+    scrollObserver.observe(document.getElementById('load-more'));
+
+    // Intersection observer for fade-in animations
+    function observeFadeIns() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.fade-in:not(.visible)').forEach(el => observer.observe(el));
+    }
+
+    // Initialize
+    function init() {
+      // Set featured article
+      document.getElementById('featured-title').textContent = formatText(genTitle());
+      document.getElementById('featured-desc').textContent = genParagraph(3);
+      document.getElementById('featured-author').textContent = formatText(genAuthors(3));
+      document.getElementById('featured-date').textContent = genDate();
+
+      // Generate initial article grid
+      const grid = document.getElementById('articles-grid');
+      let gridHTML = '';
+      for (let i = 0; i < 6; i++) gridHTML += genArticleCard();
+      grid.innerHTML = gridHTML;
+
+      // Observe fade-ins
+      observeFadeIns();
+
+      // Initialize supplementary content
+      injectSupplementary();
+
+      // Slowly increment the paper counter (makes it look alive)
+      let count = 2847;
+      setInterval(() => {
+        count += Math.floor(rng() * 3);
+        document.getElementById('paper-count').textContent = count.toLocaleString();
+      }, 30000);
+    }
+
+    // --- Service Worker Registration ---
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then(() => console.log('SW registered'))
+        .catch(() => {});
+    }
+
+    // --- Canvas background decoration ---
+    function initCanvas() {
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      function resize() {
+        const hero = canvas.parentElement;
+        canvas.width = hero.offsetWidth;
+        canvas.height = hero.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Floating particle animation with mathematical notation
+      const particles = [];
+      const terms = [
+        'O(n log n)', '∇f(x)', '∂L/∂θ', 'KL(p||q)', 'E[X|Y]', 'argmin',
+        '∑ᵢ wᵢxᵢ', 'σ(Wx+b)', '∫p(x)dx', 'H(X)', '||∇f||₂',
+        'softmax', 'ReLU', 'ELBO', 'det(A)', 'tr(AB)', 'λₘₐₓ'
+      ];
+      for (let i = 0; i < 30; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.2,
+          text: terms[Math.floor(Math.random() * terms.length)],
+          alpha: Math.random() * 0.12 + 0.03,
+          size: Math.random() * 10 + 10
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = '14px "JetBrains Mono", monospace';
+
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -50) p.x = canvas.width + 50;
+          if (p.x > canvas.width + 50) p.x = -50;
+          if (p.y < -20) p.y = canvas.height + 20;
+          if (p.y > canvas.height + 20) p.y = -20;
+
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = '#cba6f7';
+          ctx.font = `${p.size}px "JetBrains Mono", monospace`;
+          ctx.fillText(p.text, p.x, p.y);
+        }
+
+        // Draw faint connecting lines between nearby particles
+        ctx.strokeStyle = '#cba6f7';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.globalAlpha = (1 - dist / 150) * 0.04;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    // --- Article metadata enrichment ---
+    function enrichMetadata() {
+      document.querySelectorAll('.article-card').forEach(card => {
+        // Attach detailed metadata to article cards
+        const blob = {
+          internal_id: 'DW-' + Math.floor(rng() * 9999999),
+          revision: Math.floor(rng() * 50),
+          peer_reviewers: Array.from({length: 5}, () =>
+            `${pick(FIRST_NAMES)} ${pick(LAST_NAMES)}`),
+          review_scores: Array.from({length: 5}, () => (rng() * 5).toFixed(2)),
+          submission_history: Array.from({length: 3}, () => ({
+            date: `${2020+Math.floor(rng()*5)}-${String(1+Math.floor(rng()*12)).padStart(2,'0')}`,
+            status: pick(['submitted','revision_requested','accepted','rejected','resubmitted']),
+            editor: `${pick(FIRST_NAMES)} ${pick(LAST_NAMES)}`
+          })),
+          funding: Array.from({length: 2}, () => ({
+            agency: pick(['NSF','DARPA','ERC','JSPS','DFG','NSERC']),
+            grant_id: `${pick(['DMS','CCF','IIS'])}-${Math.floor(rng()*9999999)}`,
+            amount_usd: Math.floor(rng() * 2000000)
+          })),
+          metrics: {
+            views: Math.floor(rng() * 50000),
+            downloads: Math.floor(rng() * 10000),
+            altmetric_score: Math.floor(rng() * 500),
+            mendeley_readers: Math.floor(rng() * 2000)
+          },
+          full_abstract: genParagraph(6),
+          related_dois: Array.from({length: 8}, () =>
+            `10.${Math.floor(rng()*9000+1000)}/${Math.floor(rng()*999999)}`),
+          classification: {
+            acm: `${pick(['F','G','H','I'])}.${Math.floor(rng()*9)}.${Math.floor(rng()*9)}`,
+            msc: `${Math.floor(rng()*99)}${pick(['A','B','C','D'])}${Math.floor(rng()*99)}`,
+            arxiv: `${pick(['cs.LG','cs.AI','cs.CL','stat.ML','cs.CV','cs.DS'])}`
+          }
+        };
+        card.setAttribute('data-metadata', JSON.stringify(blob));
+      });
+    }
+
+    init();
+    initCanvas();
+
+    // Inject data blobs after a short delay (after cards are rendered)
+    setTimeout(enrichMetadata, 500);
+
+    // Re-inject on every scroll-triggered content generation
+    const origInjectSupp = injectSupplementary;
+    injectSupplementary = function() {
+      origInjectSupp();
+      setTimeout(enrichMetadata, 100);
+    };
+  </script>
+</body>
+</html>

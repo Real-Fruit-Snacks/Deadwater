@@ -1,0 +1,41 @@
+# Everything ignored by default
+*
+
+# Source code
+!src/
+!src/**/
+!src/**
+
+# Tests
+!tests/
+!tests/**
+
+# Static site source files (not build output)
+!public/
+!public/index.html
+!public/sw.js
+!public/manifest.json
+!public/robots.txt
+!public/humans.txt
+!public/.well-known/
+!public/.well-known/**
+!public/api/
+!public/api/docs/
+!public/api/docs/**
+
+# Build system
+!build.js
+!.github/
+!.github/**/
+!.github/**
+
+# Project config
+!pyproject.toml
+!LICENSE
+!README.md
+!CHANGELOG.md
+!CONTRIBUTING.md
+!CODE_OF_CONDUCT.md
+
+# Git config
+!.gitignore

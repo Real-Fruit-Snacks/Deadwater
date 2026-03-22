@@ -1,0 +1,9 @@
+# Deadwater Research Institute Security Policy
+Contact: mailto:security@deadwater-research.io
+Encryption: https://deadwater-research.io/.well-known/pgp-key.txt
+Acknowledgments: https://deadwater-research.io/security/hall-of-fame
+Policy: https://deadwater-research.io/security/policy
+Preferred-Languages: en
+Canonical: https://deadwater-research.io/.well-known/security.txt
+Expires: 2099-12-31T23:59:59.000Z
+Hiring: https://deadwater-research.io/careers/security

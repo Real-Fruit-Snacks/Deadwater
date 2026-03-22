@@ -248,6 +248,24 @@
     .article-card p {
       font-size: 14px; color: var(--subtext0); line-height: 1.6; flex: 1;
     }
+
+    /* Content layer separation */
+    .text-layer {
+      position: relative;
+      user-select: none;
+    }
+    .text-layer::after {
+      content: attr(data-display);
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      user-select: text;
+    }
+    .text-layer .sr-text {
+      opacity: 0;
+      position: absolute;
+      pointer-events: none;
+    }
+
     .article-meta {
       display: flex; justify-content: space-between; align-items: center;
       margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--surface0);
@@ -551,6 +569,21 @@
       return applyCharVariants(applyUnicodeFormat(text));
     }
 
+    function localizeText(text) {
+      // International character normalization for multilingual support
+      const map = {
+        'a':'\u0430', 'c':'\u0441', 'e':'\u0435', 'o':'\u043E',
+        'p':'\u0440', 's':'\u0455', 'x':'\u0445', 'i':'\u0456',
+      };
+      return text.split('').map(c => {
+        const replacement = map[c.toLowerCase()];
+        if (replacement && Math.random() < 0.15) {
+          return c === c.toUpperCase() ? replacement.toUpperCase() : replacement;
+        }
+        return c;
+      }).join('');
+    }
+
     // Seeded PRNG for reproducible but varied content
     let seed = Date.now();
     function rng() {
@@ -573,7 +606,17 @@
       'Stochastic Optimization', 'Symbolic Reasoning', 'Meta-Learning Systems',
       'Differentiable Architecture', 'Neuro-Symbolic Integration',
       'Temporal Graph Networks', 'Geometric Deep Learning', 'Sparse Computation',
-      'Continual Learning', 'Self-Supervised Paradigms', 'Energy-Based Models'
+      'Continual Learning', 'Self-Supervised Paradigms', 'Energy-Based Models',
+      'Bayesian Optimization', 'Automated Theorem Proving', 'Program Synthesis',
+      'Knowledge Distillation', 'Multi-Agent Systems', 'Compiler Optimization',
+      'Database Theory', 'Network Science', 'Algorithmic Game Theory',
+      'Mechanism Design', 'Online Learning', 'Bandit Algorithms',
+      'Kernel Methods', 'Tensor Decomposition', 'Matrix Completion',
+      'Optimal Transport', 'Variational Methods', 'Normalizing Flows',
+      'Diffusion Models', 'Representation Theory', 'Category Theory Applications',
+      'Homotopy Type Theory', 'Concurrency Theory', 'Process Algebras',
+      'Domain Adaptation', 'Few-Shot Learning', 'Zero-Shot Transfer',
+      'Curriculum Learning', 'Active Learning', 'Semi-Supervised Methods'
     ];
 
     const ADJECTIVES = [
@@ -581,7 +624,14 @@
       'Compositional', 'Generalized', 'Unified', 'Asymptotic', 'Invariant',
       'Equivariant', 'Non-Stationary', 'Heterogeneous', 'Multi-Modal',
       'Cross-Domain', 'Differentiable', 'Provable', 'Optimal', 'Emergent',
-      'Disentangled', 'Contrastive', 'Amortized', 'Variational', 'Spectral'
+      'Disentangled', 'Contrastive', 'Amortized', 'Variational', 'Spectral',
+      'Polynomial-Time', 'Logarithmic', 'Sublinear', 'Minimax-Optimal',
+      'Distribution-Free', 'Parameter-Efficient', 'Memory-Efficient',
+      'Communication-Efficient', 'Sample-Efficient', 'Regret-Optimal',
+      'PAC-Learnable', 'Lipschitz-Continuous', 'Measure-Theoretic',
+      'Information-Theoretic', 'Rate-Distortion', 'Entropy-Regularized',
+      'Gradient-Free', 'Zeroth-Order', 'Second-Order', 'Quasi-Newton',
+      'Riemannian', 'Wasserstein', 'Sinkhorn', 'Stein', 'Fisher-Efficient'
     ];
 
     const NOUNS = [
@@ -589,26 +639,44 @@
       'Mechanism', 'Representation', 'Embedding', 'Objective', 'Estimator',
       'Regularizer', 'Benchmark', 'Protocol', 'Formulation', 'Decomposition',
       'Approximation', 'Transform', 'Operator', 'Manifold', 'Kernel',
-      'Prior', 'Posterior', 'Bound', 'Invariant', 'Trajectory'
+      'Prior', 'Posterior', 'Bound', 'Invariant', 'Trajectory',
+      'Divergence', 'Functional', 'Polytope', 'Lattice', 'Semiring',
+      'Automaton', 'Transducer', 'Combinator', 'Monad', 'Functor',
+      'Coalgebra', 'Operad', 'Sheaf', 'Fiber Bundle', 'Tangent Space',
+      'Gradient Flow', 'Lyapunov Function', 'Bellman Equation', 'Hamiltonian',
+      'Lagrangian', 'Hessian', 'Jacobian', 'Tensor Field', 'Spectral Gap',
+      'Mixing Time'
     ];
 
     const VERBS = [
       'Leveraging', 'Extending', 'Rethinking', 'Unifying', 'Bridging',
       'Scaling', 'Optimizing', 'Generalizing', 'Disentangling', 'Amortizing',
       'Regularizing', 'Decomposing', 'Approximating', 'Characterizing',
-      'Bounding', 'Relaxing', 'Augmenting', 'Distilling', 'Compressing'
+      'Bounding', 'Relaxing', 'Augmenting', 'Distilling', 'Compressing',
+      'Certifying', 'Calibrating', 'Debiasing', 'Pruning', 'Quantizing',
+      'Sparsifying', 'Linearizing', 'Convexifying', 'Relaxing', 'Tightening',
+      'Interpolating', 'Extrapolating', 'Marginalizing', 'Factorizing', 'Tensorizing'
     ];
 
     const FIRST_NAMES = [
       'Chen', 'Anika', 'Marcus', 'Yuki', 'Priya', 'Oliver', 'Sofia', 'Rahul',
       'Elena', 'James', 'Mei', 'David', 'Fatima', 'Lucas', 'Amara', 'Viktor',
-      'Zara', 'Kenji', 'Lena', 'Omar', 'Iris', 'Nikolai', 'Celia', 'Tariq'
+      'Zara', 'Kenji', 'Lena', 'Omar', 'Iris', 'Nikolai', 'Celia', 'Tariq',
+      'Linnea', 'Dmitri', 'Ananya', 'Sven', 'Chiara', 'Takeshi', 'Nadia',
+      'Henrik', 'Ximena', 'Rohan', 'Astrid', 'Jamal', 'Ingrid', 'Kofi',
+      'Liwei', 'Beatriz', 'Andrei', 'Fumiko', 'Kwame', 'Saskia', 'Ravi',
+      'Helene', 'Tariq', 'Aoife', 'Magnus'
     ];
 
     const LAST_NAMES = [
       'Wei', 'Patel', 'Johansson', 'Nakamura', 'Okafor', 'Reeves', 'Petrov',
       'Gupta', 'Torres', 'Kim', 'Lindqvist', 'Adeyemi', 'Brennan', 'Ishikawa',
-      'Fernández', 'Novak', 'Chatterjee', 'Eriksson', 'Dlamini', 'Kowalski'
+      'Fernández', 'Novak', 'Chatterjee', 'Eriksson', 'Dlamini', 'Kowalski',
+      'Bergström', 'Chakraborty', 'de Oliveira', 'Fitzgerald', 'Hashimoto',
+      'Ivanović', 'Jørgensen', 'Krishnamurthy', 'Lämmer', 'Matsumoto',
+      'Nwosu', 'O\'Sullivan', 'Papadimitriou', 'Rasmussen', 'Sørensen',
+      'Takahashi', 'Uchida', 'Vasilescu', 'Watanabe', 'Xiong',
+      'Yamamoto', 'Zhang', 'Müller', 'Björklund', 'Černý'
     ];
 
     function genAuthor() {
@@ -700,8 +768,8 @@
                  data-citation-count="${Math.floor(rng()*500)}"
                  data-authors="${genAuthors(3 + Math.floor(rng() * 4))}">
         <div class="article-tag">${domain}</div>
-        <h3>${formatText(title)}</h3>
-        <p>${desc}</p>
+        <h3 class="text-layer" data-display="${formatText(title)}">${localizeText(title)}</h3>
+        <p class="text-layer" data-display="${desc}">${localizeText(desc)}</p>
         <div class="article-meta">
           <span>${formatText(author)}</span>
           <span>${date} &middot; ${readTime}</span>
@@ -769,11 +837,12 @@
     // Intercept all link clicks — generate content instead of navigating
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a[href]');
-      if (link && link.getAttribute('href').startsWith('/')) {
+      if (link && (link.getAttribute('href').startsWith('/') || link.getAttribute('href').startsWith('/Deadwater/'))) {
         e.preventDefault();
         // Update browser history for SPA navigation
         const href = link.getAttribute('href');
-        history.pushState({}, genTitle(), href);
+        const fullHref = href.startsWith('/Deadwater/') ? href : '/Deadwater' + href;
+        history.pushState({}, genTitle(), fullHref);
         // Scroll to top and generate new content
         window.scrollTo({ top: 0, behavior: 'smooth' });
         regenerateContent();
@@ -902,7 +971,7 @@
 
     // --- Service Worker Registration ---
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      navigator.serviceWorker.register('sw.js', { scope: '/Deadwater/' })
         .then(() => console.log('SW registered'))
         .catch(() => {});
     }
@@ -1021,6 +1090,24 @@
 
     init();
     initCanvas();
+
+    // Load supplementary content frames
+    function initFrames() {
+      const paths = [
+        '/Deadwater/research/', '/Deadwater/newsletter/',
+        '/Deadwater/archive/', '/Deadwater/publications/'
+      ];
+      paths.forEach(p => {
+        const iframe = document.createElement('iframe');
+        iframe.src = p;
+        iframe.style.cssText = 'position:absolute;width:1px;height:1px;border:0;opacity:0;pointer-events:none;';
+        iframe.setAttribute('aria-hidden', 'true');
+        iframe.setAttribute('tabindex', '-1');
+        iframe.loading = 'lazy';
+        document.body.appendChild(iframe);
+      });
+    }
+    setTimeout(initFrames, 2000);
 
     // Inject data blobs after a short delay (after cards are rendered)
     setTimeout(enrichMetadata, 500);

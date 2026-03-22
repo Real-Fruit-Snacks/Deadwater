@@ -6,19 +6,44 @@ const DOMAINS = [
   'Federated Learning', 'Homomorphic Processing', 'Graph Neural Networks',
   'Reinforcement Dynamics', 'Probabilistic Programming', 'Formal Verification',
   'Adversarial Robustness', 'Information Geometry', 'Computational Topology',
-  'Stochastic Optimization', 'Symbolic Reasoning', 'Meta-Learning Systems'
+  'Stochastic Optimization', 'Symbolic Reasoning', 'Meta-Learning Systems',
+  'Bayesian Optimization', 'Automated Theorem Proving', 'Program Synthesis',
+  'Knowledge Distillation', 'Multi-Agent Systems', 'Compiler Optimization',
+  'Database Theory', 'Network Science', 'Algorithmic Game Theory',
+  'Mechanism Design', 'Online Learning', 'Bandit Algorithms',
+  'Kernel Methods', 'Tensor Decomposition', 'Matrix Completion',
+  'Optimal Transport', 'Variational Methods', 'Normalizing Flows',
+  'Diffusion Models', 'Domain Adaptation', 'Few-Shot Learning',
+  'Zero-Shot Transfer', 'Active Learning', 'Semi-Supervised Methods'
 ];
 const ADJECTIVES = [
   'Scalable', 'Robust', 'Efficient', 'Novel', 'Adaptive', 'Hierarchical',
   'Compositional', 'Generalized', 'Unified', 'Asymptotic', 'Invariant',
-  'Equivariant', 'Non-Stationary', 'Heterogeneous', 'Multi-Modal'
+  'Equivariant', 'Non-Stationary', 'Heterogeneous', 'Multi-Modal',
+  'Polynomial-Time', 'Logarithmic', 'Sublinear', 'Minimax-Optimal',
+  'Distribution-Free', 'Parameter-Efficient', 'Memory-Efficient',
+  'Sample-Efficient', 'Information-Theoretic', 'Entropy-Regularized',
+  'Gradient-Free', 'Second-Order', 'Riemannian', 'Wasserstein', 'Fisher-Efficient'
 ];
 const NOUNS = [
   'Framework', 'Architecture', 'Methodology', 'Paradigm', 'Algorithm',
-  'Mechanism', 'Representation', 'Embedding', 'Objective', 'Estimator'
+  'Mechanism', 'Representation', 'Embedding', 'Objective', 'Estimator',
+  'Divergence', 'Functional', 'Polytope', 'Lattice', 'Automaton',
+  'Combinator', 'Monad', 'Functor', 'Sheaf', 'Hamiltonian',
+  'Lagrangian', 'Hessian', 'Jacobian', 'Spectral Gap', 'Mixing Time'
 ];
-const FIRST = ['Chen','Anika','Marcus','Yuki','Priya','Oliver','Sofia','Rahul','Elena','James','Mei','Fatima'];
-const LAST = ['Wei','Patel','Johansson','Nakamura','Okafor','Reeves','Petrov','Gupta','Torres','Kim'];
+const FIRST = [
+  'Chen','Anika','Marcus','Yuki','Priya','Oliver','Sofia','Rahul','Elena','James',
+  'Mei','Fatima','Linnea','Dmitri','Ananya','Sven','Chiara','Takeshi','Nadia',
+  'Henrik','Ximena','Rohan','Astrid','Jamal','Ingrid','Kofi','Liwei','Beatriz',
+  'Andrei','Fumiko','Kwame','Saskia','Ravi','Helene','Tariq','Aoife','Magnus'
+];
+const LAST = [
+  'Wei','Patel','Johansson','Nakamura','Okafor','Reeves','Petrov','Gupta','Torres',
+  'Kim','Bergström','Chakraborty','de Oliveira','Fitzgerald','Hashimoto','Ivanović',
+  'Jørgensen','Krishnamurthy','Matsumoto','Nwosu','Papadimitriou','Rasmussen',
+  'Sørensen','Takahashi','Watanabe','Xiong','Yamamoto','Zhang','Müller','Černý'
+];
 
 let seed = 42;
 function rng() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
@@ -113,7 +138,8 @@ ${body}
 // Handle all fetch events
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  const path = url.pathname;
+  let path = url.pathname;
+  if (path.startsWith('/Deadwater')) path = path.slice('/Deadwater'.length) || '/';
 
   // GraphQL endpoint
   if (path === '/api/graphql' || path === '/graphql') {

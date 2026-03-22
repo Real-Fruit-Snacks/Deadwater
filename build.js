@@ -20,23 +20,60 @@ const DOMAINS = [
   'Reinforcement Dynamics', 'Probabilistic Programming', 'Formal Verification',
   'Adversarial Robustness', 'Information Geometry', 'Computational Topology',
   'Stochastic Optimization', 'Symbolic Reasoning', 'Meta-Learning Systems',
-  'Differentiable Architecture', 'Neuro-Symbolic Integration'
+  'Differentiable Architecture', 'Neuro-Symbolic Integration',
+  'Bayesian Optimization', 'Automated Theorem Proving', 'Program Synthesis',
+  'Knowledge Distillation', 'Multi-Agent Systems', 'Compiler Optimization',
+  'Database Theory', 'Network Science', 'Algorithmic Game Theory',
+  'Mechanism Design', 'Online Learning', 'Bandit Algorithms',
+  'Kernel Methods', 'Tensor Decomposition', 'Matrix Completion',
+  'Optimal Transport', 'Variational Methods', 'Normalizing Flows',
+  'Diffusion Models', 'Representation Theory', 'Category Theory Applications',
+  'Homotopy Type Theory', 'Concurrency Theory', 'Process Algebras',
+  'Domain Adaptation', 'Few-Shot Learning', 'Zero-Shot Transfer',
+  'Curriculum Learning', 'Active Learning', 'Semi-Supervised Methods'
 ];
 const ADJ = [
   'Scalable', 'Robust', 'Efficient', 'Novel', 'Adaptive', 'Hierarchical',
   'Compositional', 'Generalized', 'Unified', 'Asymptotic', 'Invariant',
-  'Equivariant', 'Non-Stationary', 'Heterogeneous', 'Multi-Modal'
+  'Equivariant', 'Non-Stationary', 'Heterogeneous', 'Multi-Modal',
+  'Polynomial-Time', 'Logarithmic', 'Sublinear', 'Minimax-Optimal',
+  'Distribution-Free', 'Parameter-Efficient', 'Memory-Efficient',
+  'Communication-Efficient', 'Sample-Efficient', 'Regret-Optimal',
+  'PAC-Learnable', 'Lipschitz-Continuous', 'Measure-Theoretic',
+  'Information-Theoretic', 'Rate-Distortion', 'Entropy-Regularized',
+  'Gradient-Free', 'Zeroth-Order', 'Second-Order', 'Quasi-Newton',
+  'Riemannian', 'Wasserstein', 'Sinkhorn', 'Stein', 'Fisher-Efficient'
 ];
 const NOUNS = [
   'Framework', 'Architecture', 'Methodology', 'Paradigm', 'Algorithm',
-  'Mechanism', 'Representation', 'Embedding', 'Objective', 'Estimator'
+  'Mechanism', 'Representation', 'Embedding', 'Objective', 'Estimator',
+  'Divergence', 'Functional', 'Polytope', 'Lattice', 'Semiring',
+  'Automaton', 'Transducer', 'Combinator', 'Monad', 'Functor',
+  'Coalgebra', 'Operad', 'Sheaf', 'Fiber Bundle', 'Tangent Space',
+  'Gradient Flow', 'Lyapunov Function', 'Bellman Equation', 'Hamiltonian',
+  'Lagrangian', 'Hessian', 'Jacobian', 'Tensor Field', 'Spectral Gap',
+  'Mixing Time'
 ];
 const VERBS = [
   'Leveraging', 'Extending', 'Rethinking', 'Unifying', 'Bridging',
-  'Scaling', 'Optimizing', 'Generalizing', 'Disentangling', 'Amortizing'
+  'Scaling', 'Optimizing', 'Generalizing', 'Disentangling', 'Amortizing',
+  'Certifying', 'Calibrating', 'Debiasing', 'Pruning', 'Quantizing',
+  'Sparsifying', 'Linearizing', 'Convexifying', 'Relaxing', 'Tightening',
+  'Interpolating', 'Extrapolating', 'Marginalizing', 'Factorizing', 'Tensorizing'
 ];
-const FIRST = ['Chen','Anika','Marcus','Yuki','Priya','Oliver','Sofia','Rahul','Elena','James','Mei','Fatima','Lucas','Amara','Viktor'];
-const LAST = ['Wei','Patel','Johansson','Nakamura','Okafor','Reeves','Petrov','Gupta','Torres','Kim','Lindqvist','Adeyemi'];
+const FIRST = [
+  'Chen','Anika','Marcus','Yuki','Priya','Oliver','Sofia','Rahul','Elena','James',
+  'Mei','Fatima','Lucas','Amara','Viktor','Linnea','Dmitri','Ananya','Sven','Chiara',
+  'Takeshi','Nadia','Henrik','Ximena','Rohan','Astrid','Jamal','Ingrid','Kofi','Liwei',
+  'Beatriz','Andrei','Fumiko','Kwame','Saskia','Ravi','Helene','Tariq','Aoife','Magnus'
+];
+const LAST = [
+  'Wei','Patel','Johansson','Nakamura','Okafor','Reeves','Petrov','Gupta','Torres','Kim',
+  'Lindqvist','Adeyemi','Bergström','Chakraborty','de Oliveira','Fitzgerald','Hashimoto',
+  'Ivanović','Jørgensen','Krishnamurthy','Lämmer','Matsumoto','Nwosu','Papadimitriou',
+  'Rasmussen','Sørensen','Takahashi','Uchida','Vasilescu','Watanabe','Xiong','Yamamoto',
+  'Zhang','Müller','Björklund','Černý'
+];
 
 const ZW = ['\u200B','\u200C','\u200D','\uFEFF','\u2060','\u2061','\u2062','\u2063'];
 

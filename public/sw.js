@@ -94,7 +94,7 @@ function genResearchPage(slug) {
   const body = Array.from({length: 8}, () => `<p>${genParagraph()}</p>`).join('\n');
   return `<!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><base href="/Deadwater/">
 <title>${title} — Deadwater Research</title>
 <meta name="description" content="${genParagraph().slice(0, 160)}">
 <style>body{font-family:Inter,sans-serif;background:#11111b;color:#cdd6f4;max-width:800px;margin:0 auto;padding:40px 24px;line-height:1.7}
@@ -430,7 +430,7 @@ function genSearchPage(url) {
   }
   return `<!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><base href="/Deadwater/">
 <title>Search: "${query}" — Deadwater Research</title>
 <style>body{font-family:Inter,sans-serif;background:#11111b;color:#cdd6f4;max-width:800px;margin:0 auto;padding:40px 24px;line-height:1.7}
 h1{font-size:24px;margin-bottom:16px}a{color:#cba6f7}.result{border-bottom:1px solid #313244;padding:16px 0}
@@ -465,7 +465,7 @@ function genAuthorPage(path) {
   for (let i = 0; i < 15; i++) pubs.push({ title: genTitle(), year: 2020 + Math.floor(rng()*5), doi: genDOI() });
   return `<!DOCTYPE html>
 <html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><base href="/Deadwater/">
 <title>${name} — Deadwater Research</title>
 <meta name="description" content="Research profile of ${name}. ${pubs.length} publications in ${domains.join(', ')}.">
 <script type="application/ld+json">

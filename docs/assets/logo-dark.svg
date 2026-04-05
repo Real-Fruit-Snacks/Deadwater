@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220">
+  <defs>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#89dceb"/>
+      <stop offset="100%" stop-color="#89b4fa"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#89dceb"/>
+      <stop offset="100%" stop-color="#89b4fa"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="720" height="220" fill="#11111b" rx="8"/>
+
+  <!-- Hexagonal Frame -->
+  <g transform="translate(100, 110)" filter="url(#softGlow)">
+    <polygon points="0,-72 62.4,-36 62.4,36 0,72 -62.4,36 -62.4,-36"
+             fill="none" stroke="url(#accentGrad)" stroke-width="1.5" opacity="0.4"/>
+
+    <!-- Center node -->
+    <circle cx="0" cy="0" r="2" fill="#89dceb" opacity="0.6"/>
+    <!-- Entry node (left) -->
+    <circle cx="-62.4" cy="0" r="2" fill="#89dceb" opacity="0.5"/>
+    <!-- Exit node (right) -->
+    <circle cx="62.4" cy="0" r="2" fill="#89dceb" opacity="0.5"/>
+
+    <!-- Particle dots on hex edges -->
+    <circle cx="31.2" cy="-54" r="1.2" fill="#89b4fa" opacity="0.35"/>
+    <circle cx="-31.2" cy="-54" r="1.2" fill="#89dceb" opacity="0.3"/>
+    <circle cx="31.2" cy="54" r="1.2" fill="#89b4fa" opacity="0.3"/>
+    <circle cx="-31.2" cy="54" r="1.2" fill="#89dceb" opacity="0.35"/>
+    <circle cx="-55" cy="-18" r="1" fill="#89b4fa" opacity="0.25"/>
+    <circle cx="55" cy="18" r="1" fill="#89dceb" opacity="0.25"/>
+
+    <!-- LOGOMARK: Still Surface Grid -->
+    <!-- Flat horizontal surface line -->
+    <line x1="-36" y1="-14" x2="36" y2="-14" stroke="url(#accentGrad)" stroke-width="1.2" opacity="0.7"/>
+
+    <!-- Still water above - subtle atmosphere -->
+    <line x1="-28" y1="-20" x2="28" y2="-20" stroke="#89dceb" stroke-width="0.3" opacity="0.15"/>
+    <line x1="-20" y1="-26" x2="20" y2="-26" stroke="#89dceb" stroke-width="0.2" opacity="0.1"/>
+
+    <!-- Structured grid pattern below surface -->
+    <!-- Row 1 -->
+    <circle cx="-24" cy="-4" r="1.3" fill="#89dceb" opacity="0.5"/>
+    <circle cx="-14" cy="-4" r="1.3" fill="#89b4fa" opacity="0.45"/>
+    <circle cx="-4" cy="-4" r="1.3" fill="#89dceb" opacity="0.5"/>
+    <circle cx="6" cy="-4" r="1.3" fill="#89b4fa" opacity="0.45"/>
+    <circle cx="16" cy="-4" r="1.3" fill="#89dceb" opacity="0.5"/>
+    <circle cx="26" cy="-4" r="1.3" fill="#89b4fa" opacity="0.45"/>
+
+    <!-- Row 2 -->
+    <circle cx="-24" cy="6" r="1.3" fill="#89b4fa" opacity="0.4"/>
+    <circle cx="-14" cy="6" r="1.3" fill="#89dceb" opacity="0.4"/>
+    <circle cx="-4" cy="6" r="1.3" fill="#89b4fa" opacity="0.45"/>
+    <circle cx="6" cy="6" r="1.3" fill="#89dceb" opacity="0.4"/>
+    <circle cx="16" cy="6" r="1.3" fill="#89b4fa" opacity="0.4"/>
+    <circle cx="26" cy="6" r="1.3" fill="#89dceb" opacity="0.4"/>
+
+    <!-- Row 3 -->
+    <circle cx="-24" cy="16" r="1.3" fill="#89dceb" opacity="0.35"/>
+    <circle cx="-14" cy="16" r="1.3" fill="#89b4fa" opacity="0.35"/>
+    <circle cx="-4" cy="16" r="1.3" fill="#89dceb" opacity="0.35"/>
+    <circle cx="6" cy="16" r="1.3" fill="#89b4fa" opacity="0.35"/>
+    <circle cx="16" cy="16" r="1.3" fill="#89dceb" opacity="0.35"/>
+    <circle cx="26" cy="16" r="1.3" fill="#89b4fa" opacity="0.35"/>
+
+    <!-- Row 4 -->
+    <circle cx="-24" cy="26" r="1.3" fill="#89b4fa" opacity="0.25"/>
+    <circle cx="-14" cy="26" r="1.3" fill="#89dceb" opacity="0.25"/>
+    <circle cx="-4" cy="26" r="1.3" fill="#89b4fa" opacity="0.3"/>
+    <circle cx="6" cy="26" r="1.3" fill="#89dceb" opacity="0.25"/>
+    <circle cx="16" cy="26" r="1.3" fill="#89b4fa" opacity="0.25"/>
+    <circle cx="26" cy="26" r="1.3" fill="#89dceb" opacity="0.25"/>
+
+    <!-- Faint vertical grid lines -->
+    <line x1="-24" y1="-10" x2="-24" y2="30" stroke="#89dceb" stroke-width="0.3" opacity="0.1"/>
+    <line x1="-14" y1="-10" x2="-14" y2="30" stroke="#89b4fa" stroke-width="0.3" opacity="0.1"/>
+    <line x1="-4" y1="-10" x2="-4" y2="30" stroke="#89dceb" stroke-width="0.3" opacity="0.1"/>
+    <line x1="6" y1="-10" x2="6" y2="30" stroke="#89b4fa" stroke-width="0.3" opacity="0.1"/>
+    <line x1="16" y1="-10" x2="16" y2="30" stroke="#89dceb" stroke-width="0.3" opacity="0.1"/>
+    <line x1="26" y1="-10" x2="26" y2="30" stroke="#89b4fa" stroke-width="0.3" opacity="0.1"/>
+
+    <!-- Faint horizontal grid lines -->
+    <line x1="-28" y1="-4" x2="30" y2="-4" stroke="#89dceb" stroke-width="0.2" opacity="0.08"/>
+    <line x1="-28" y1="6" x2="30" y2="6" stroke="#89b4fa" stroke-width="0.2" opacity="0.08"/>
+    <line x1="-28" y1="16" x2="30" y2="16" stroke="#89dceb" stroke-width="0.2" opacity="0.08"/>
+    <line x1="-28" y1="26" x2="30" y2="26" stroke="#89b4fa" stroke-width="0.2" opacity="0.08"/>
+  </g>
+
+  <!-- Typography -->
+  <g transform="translate(200, 0)">
+    <!-- Project Name -->
+    <text x="0" y="92" font-family="'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="58" font-weight="800" fill="url(#textGrad)" letter-spacing="3">DEADWATER</text>
+
+    <!-- Separator line -->
+    <line x1="0" y1="108" x2="370" y2="108" stroke="url(#accentGrad)" stroke-width="0.8" opacity="0.4"/>
+
+    <!-- Tagline -->
+    <text x="0" y="132" font-family="'JetBrains Mono','Fira Code','Cascadia Code',monospace" font-size="11.5" fill="#cdd6f4" letter-spacing="2" opacity="0.85">RESEARCH PUBLICATION PLATFORM</text>
+
+    <!-- Descriptor -->
+    <text x="0" y="152" font-family="'JetBrains Mono','Fira Code','Cascadia Code',monospace" font-size="9" fill="#a6adc8" letter-spacing="2.5" opacity="0.6">GO · TYPESCRIPT · SEARCH · API</text>
+  </g>
+</svg>

@@ -40,3 +40,6 @@
 
 # Git config
 !.gitignore
+\!SECURITY.md
+\!docs/
+\!docs/**
